@@ -90,3 +90,5 @@ ENV/
 # Rope project settings
 .ropeproject
 /.idea
+media_cdn/
+static_cdn/
