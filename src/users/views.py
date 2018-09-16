@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def login(request):
-  pass
+  return render(request, "users/login.html", {})
 
 def show(request, id=None):
   pass
