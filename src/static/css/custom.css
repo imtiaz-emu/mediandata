@@ -1,5 +1,5 @@
 /*Users CSS*/
-
-.gray-bg {
-    height: 100%;
+.registration-form #id_role{
+    list-style: none;
+    padding-left: 0;
 }

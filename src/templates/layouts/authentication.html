@@ -16,18 +16,24 @@
 
   <link href="{% static 'css/animate.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/toastr.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 
   <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/toastr.min.js' %}"></script>
 
 </head>
 
-<body>
-<div class="gray-bg">
+<body class="gray-bg">
+<div>
   {% block content %}
 
   {% endblock content %}
+
+  {% block script %}
+
+  {% endblock script %}
 </div>
 </body>
 </html>
