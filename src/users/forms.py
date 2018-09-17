@@ -47,3 +47,10 @@ class CustomUserCreationForm(forms.Form):
 		my_group.user_set.add(user)
 
 		return user
+
+class CustomUserLoginForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = [
+			'email', 'password'
+		]
