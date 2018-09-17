@@ -43,7 +43,7 @@ class CustomUserCreationForm(forms.Form):
 			self.cleaned_data['email'],
 			self.cleaned_data['password']
 		)
-		# my_group = Group.objects.get(name=self.cleaned_data.get('role'))
-		# my_group.user_set.add(user)
+		my_group, _ = Group.objects.get_or_create(name=self.cleaned_data.get('role'))
+		my_group.user_set.add(user)
 
 		return user
