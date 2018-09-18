@@ -1,9 +1,8 @@
 from django.conf.urls import url
-from .views import login, show, create, register
+from .views import signin, register, signout
 
 urlpatterns = [
     url(r'^register/$', register, name='register'),
-    url(r'^create/$', create, name='create'),
-    url(r'^login/$', login, name='login'),
-    url(r'^(?P<id>\d+)/$', show, name='show'),
+    url(r'^signin/$', signin, name='signin'),
+    url(r'^signout/$', signout, name='signout'),
 ]

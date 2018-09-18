@@ -45,7 +45,8 @@
 {% block script %}
   <script>
     $(document).ready(function () {
-      {% if errors != None %}
+
+      function toastrMessages(message, type) {
         setTimeout(function () {
           toastr.options = {
             closeButton: true,
@@ -53,9 +54,20 @@
             showMethod: 'slideDown',
             timeOut: 4000
           };
-          toastr.error("{{ errors }}");
+          if (type == 'error')
+            toastr.error(message);
+          else if (type == 'success')
+            toastr.success(message);
 
         }, 500);
+      }
+
+      {% if errors != None %}
+        toastrMessages("{{ errors }}", 'error');
+      {% endif %}
+
+      {% if messages %}
+        toastrMessages("Account Created Successfully!", 'success');
       {% endif %}
     });
   </script>

@@ -7,13 +7,13 @@ from django.contrib import messages
 from .models import Profile
 
 
-@login_required(login_url='/users/login/')
+@login_required(login_url='/users/signin/')
 def show(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	return render(request, "profiles/show.html", {'profile': instance})
 
 
-@login_required(login_url='/users/login/')
+@login_required(login_url='/users/signin/')
 @current_user_profile
 def edit(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
@@ -27,7 +27,7 @@ def edit(request, id=None):
 	})
 
 
-@login_required(login_url='/users/login/')
+@login_required(login_url='/users/signin/')
 @current_user_profile
 def update(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
