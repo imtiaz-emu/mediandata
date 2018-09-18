@@ -1,16 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from .decorators import current_user_profile
 from django.contrib.auth.models import User
 from .forms import ProfileForm, UserForm
 from django.contrib import messages
 from .models import Profile
 
 
+@login_required(login_url='/users/login/')
 def show(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	return render(request, "profiles/show.html", {'profile': instance})
 
 
+@login_required(login_url='/users/login/')
+@current_user_profile
 def edit(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	user_form = UserForm(instance=instance.user)
@@ -23,6 +27,8 @@ def edit(request, id=None):
 	})
 
 
+@login_required(login_url='/users/login/')
+@current_user_profile
 def update(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	if request.method == 'POST':
