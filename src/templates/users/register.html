@@ -52,17 +52,7 @@
   <script>
     $(document).ready(function () {
       {% if form.errors %}
-        var error_string = "{{ errors }}";
-        setTimeout(function () {
-          toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            showMethod: 'slideDown',
-            timeOut: 4000
-          };
-          toastr.error(error_string);
-
-        }, 500);
+        toastrMessages("{{ errors }}", 'error');
       {% endif %}
     });
   </script>
