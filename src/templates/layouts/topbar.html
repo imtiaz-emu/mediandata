@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <div class="row border-bottom">
   <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
@@ -12,7 +14,7 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+        <span class="m-r-sm text-muted welcome-message">Welcome to Median Data.</span>
       </li>
       <li class="dropdown">
         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="javascript:void(0)">
@@ -22,7 +24,7 @@
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <img alt="image" class="img-circle" src="img/a7.jpg">
+                <img alt="image" class="img-circle" src="{% static 'img/default_user.jpg' %}">
               </a>
               <div class="media-body">
                 <small class="pull-right">46h ago</small>
@@ -35,7 +37,7 @@
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <img alt="image" class="img-circle" src="img/a4.jpg">
+                <img alt="image" class="img-circle" src="{% static 'img/default_user.jpg' %}">
               </a>
               <div class="media-body ">
                 <small class="pull-right text-navy">5h ago</small>
@@ -48,7 +50,7 @@
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <img alt="image" class="img-circle" src="img/profile.jpg">
+                <img alt="image" class="img-circle" src="{% static 'img/default_user.jpg' %}">
               </a>
               <div class="media-body ">
                 <small class="pull-right">23h ago</small>
