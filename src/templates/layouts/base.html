@@ -27,6 +27,7 @@
   <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
+  <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
   <script src="{% static 'js/inspinia.js' %}"></script>
   <script src="{% static 'js/jquery.gritter.min.js' %}"></script>
   <script src="{% static 'js/toastr.min.js' %}"></script>
@@ -42,6 +43,10 @@
     {% block content %}
 
     {% endblock content %}
+
+    {% block script %}
+
+    {% endblock script %}
   </div>
 </div>
 </body>
