@@ -1,0 +1,68 @@
+{% extends 'layouts/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div class="wrapper wrapper-content animated fadeInRight">
+    {% include 'layouts/messages.html' %}
+
+    <div class="row m-b-lg m-t-lg">
+      <div class="col-md-6">
+
+        <div class="profile-image">
+          <img src="{{ profile.photo.url }}" class="img-circle circle-border m-b-md" alt="profile">
+        </div>
+        <div class="profile-info">
+          <div class="">
+            <div>
+              <h2 class="no-margins">
+                {{ profile.get_full_name }}
+              </h2>
+              <h4>{{ profile.organization_name }}</h4>
+              <small>
+                {{ profile.description }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <table class="table small m-b-xs">
+          <tbody>
+          <tr>
+            <td>
+              <strong>142</strong> Projects
+            </td>
+            <td>
+              <strong>22</strong> Followers
+            </td>
+
+          </tr>
+          <tr>
+            <td>
+              <strong>61</strong> Comments
+            </td>
+            <td>
+              <strong>54</strong> Articles
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>154</strong> Tags
+            </td>
+            <td>
+              <strong>32</strong> Friends
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-3">
+        <small>Sales in last 24h</small>
+        <h2 class="no-margins">206 480</h2>
+        <div id="sparkline1"></div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}

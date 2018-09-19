@@ -1,0 +1,112 @@
+{% extends 'layouts/base.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Edit Profile
+              <small>Edit your profile before continuing the analysis.</small>
+            </h5>
+          </div>
+          <div class="ibox-content">
+            <form method="post" action="{% url "profiles:update" id=request.user.profile.id %}" class="form-horizontal" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group"><label class="col-sm-2 control-label">First Name</label>
+                <div class="col-sm-10">
+                  {% render_field user_form.first_name class="form-control" placeholder="First Name" %}
+                </div>
+              </div>
+              <div class="form-group"><label class="col-sm-2 control-label">Last Name</label>
+                <div class="col-sm-10">
+                  {% render_field user_form.last_name class="form-control" placeholder="Last Name" %}
+                </div>
+              </div>
+
+              <div class="form-group"><label class="col-lg-2 control-label">Username</label>
+                <div class="col-lg-10">
+                  <input type="text" disabled="" placeholder="{{ request.user.username }}" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group"><label class="col-lg-2 control-label">Photo</label>
+                <div class="col-lg-10">
+                  {% render_field profile_form.photo class="form-control" %}
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Job Title</label>
+                <div class="col-sm-10">
+                  {% render_field profile_form.job_title class="form-control" placeholder="Job Title" %}
+                </div>
+              </div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Organization Name</label>
+                <div class="col-sm-10">
+                  {% render_field profile_form.organization_name class="form-control" placeholder="Organization Name" %}
+                </div>
+              </div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Website</label>
+                <div class="col-sm-10">
+                  {% render_field profile_form.url class="form-control" placeholder="Website URL" %}
+                </div>
+              </div>
+
+              <div class="hr-line-dashed"></div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Phone Number</label>
+
+                <div class="col-sm-10">
+                  <div class="row">
+                    <div class="col-md-6">
+                      {% render_field profile_form.phone_country_code class="form-control" placeholder="Country Code" %}
+                    </div>
+                    <div class="col-md-6">
+                      {% render_field profile_form.phone_number class="form-control" placeholder="Phone Number" %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                  {% render_field profile_form.address class="form-control" placeholder="Address" %}
+                </div>
+              </div>
+
+              <div class="form-group"><label class="col-sm-2 control-label">Short Bio.</label>
+                <div class="col-sm-10">
+                  {% render_field profile_form.description class="form-control" rows="3" placeholder="About Yourself" %}
+                </div>
+              </div>
+              <div class="hr-line-dashed"></div>
+
+              <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                  <a href="{% url "profiles:show" id=request.user.profile.id %}" class="btn btn-white">Cancel</a>
+                  <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      {% if errors != None %}
+        toastrMessages("{{ errors }}", 'error');
+      {% endif %}
+    });
+  </script>
+{% endblock script %}

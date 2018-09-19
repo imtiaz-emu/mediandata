@@ -1,0 +1,9 @@
+/*Users CSS*/
+.registration-form #id_role{
+    list-style: none;
+    padding-left: 0;
+}
+#side-menu .profile-element img{
+    height: 48px;
+    width: 48px;
+}
