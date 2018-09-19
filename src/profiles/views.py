@@ -19,7 +19,7 @@ def edit(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	user_form = UserForm(instance=instance.user)
 	profile_form = ProfileForm(instance=instance)
-	errors = ''
+	errors = None
 	return render(request, 'profiles/edit.html', {
 		'user_form': user_form,
 		'profile_form': profile_form,
@@ -33,7 +33,7 @@ def update(request, id=None):
 	instance = get_object_or_404(Profile, id=id)
 	if request.method == 'POST':
 		user_form = UserForm(request.POST, instance=instance.user)
-		profile_form = ProfileForm(request.POST, instance=instance)
+		profile_form = ProfileForm(request.POST, request.FILES or None, instance=instance)
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()

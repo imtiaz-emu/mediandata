@@ -20,7 +20,7 @@ class Profile(models.Model):
 	description = models.TextField(blank=True, null=True)
 	url = models.URLField(blank=True, null=True)
 	address = models.CharField(max_length=255, null=True)
-	photo = models.ImageField(upload_to=upload_location, default='media/No-img.jpg',
+	photo = models.ImageField(upload_to=upload_location,
 														max_length=None, null=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
