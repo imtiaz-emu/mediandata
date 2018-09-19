@@ -19,6 +19,5 @@ class UserForm(forms.ModelForm):
 		model = User
 		fields = [
 			'first_name',
-			'last_name',
-			'username'
+			'last_name'
 		]

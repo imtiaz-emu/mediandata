@@ -13,8 +13,8 @@
             </h5>
           </div>
           <div class="ibox-content">
-            <form method="post" class="form-horizontal" enctype="multipart/form-data">
-
+            <form method="post" action="{% url "profiles:update" id=request.user.profile.id %}" class="form-horizontal" enctype="multipart/form-data">
+              {% csrf_token %}
               <div class="form-group"><label class="col-sm-2 control-label">First Name</label>
                 <div class="col-sm-10">
                   {% render_field user_form.first_name class="form-control" placeholder="First Name" %}
@@ -28,7 +28,7 @@
 
               <div class="form-group"><label class="col-lg-2 control-label">Username</label>
                 <div class="col-lg-10">
-                  {% render_field user_form.username class="form-control" disabled="" placeholder="Last Name" %}
+                  <input type="text" disabled="" placeholder="{{ request.user.username }}" class="form-control">
                 </div>
               </div>
 
@@ -89,7 +89,7 @@
 
               <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-2">
-                  <button class="btn btn-white" type="submit">Cancel</button>
+                  <a href="{% url "profiles:show" id=request.user.profile.id %}" class="btn btn-white">Cancel</a>
                   <button class="btn btn-primary" type="submit">Save changes</button>
                 </div>
               </div>

@@ -38,7 +38,7 @@ def update(request, id=None):
 			user_form.save()
 			profile_form.save()
 			messages.success(request, 'Your profile was successfully updated!')
-			return redirect('profiles:show')
+			return redirect('profiles:show', id=id)
 		else:
 			errors = ' '.join([' '.join(x for x in l) for l in list(profile_form.errors.values())])
 	else:
