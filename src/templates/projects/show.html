@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div class="wrapper wrapper-content animated fadeInRight">
+    {% include 'layouts/messages.html' %}
+
+    <div class="row m-b-lg m-t-lg">
+      <div class="col-md-4">
+
+        <div class="profile-info">
+          <div class="">
+            <div>
+              <h2 class="no-margins">
+                {{ project.name }}
+              </h2>
+              <small>
+                {{ project.description }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-4">
+
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}

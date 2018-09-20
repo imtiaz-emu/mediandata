@@ -10,7 +10,7 @@
           <div class="ibox-title">
             <h5>All projects assigned to this account</h5>
             <div class="ibox-tools">
-              <a href="projects.html" class="btn btn-primary btn-xs">Create new project</a>
+              <a data-toggle="modal" class="btn btn-primary btn-xs" href="#project-form">Create new project</a>
             </div>
           </div>
           <div class="ibox-content">
@@ -47,7 +47,6 @@
                     </td>
                     <td class="project-actions">
                       <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> View </a>
-                      <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
                     </td>
                   </tr>
                 {% endfor %}
@@ -56,6 +55,8 @@
             </div>
           </div>
         </div>
+
+        {% include 'projects/form.html' with project=new_project %}
       </div>
     </div>
   </div>

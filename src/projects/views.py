@@ -8,13 +8,21 @@ from .models import Project
 @login_required(login_url='/users/signin/')
 def index(request):
 	projects = Project.objects.filter(user=request.user)
-	return render(request, "projects/index.html", {'project': projects})
+	context = {
+		'projects': projects,
+		'new_project': ProjectForm()
+	}
+	return render(request, "projects/index.html", context)
 
 
 @login_required(login_url='/users/signin/')
 def show(request, id=None):
 	instance = get_object_or_404(Project, id=id)
-	return render(request, "projects/show.html", {'project': instance})
+	context = {
+		'project': instance,
+		'edit_project': ProjectForm(instance)
+	}
+	return render(request, "projects/show.html", context)
 
 
 @login_required(login_url='/users/signin/')
