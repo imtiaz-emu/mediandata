@@ -22,6 +22,7 @@ urlpatterns = [
 	url(r'^admin/', admin.site.urls),
 	url(r'^users/', include("users.urls", namespace='users')),
 	url(r'^profiles/', include("profiles.urls", namespace='profiles')),
+	url(r'^projects/', include("projects.urls", namespace='projects')),
 ]
 
 if settings.DEBUG:
