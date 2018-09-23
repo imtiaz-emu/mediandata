@@ -5,28 +5,64 @@
 
   <div class="wrapper wrapper-content animated fadeInRight">
     {% include 'layouts/messages.html' %}
+    {% include 'projects/form.html' with project=edit_project url=form_url %}
 
-    <div class="row m-b-lg m-t-lg">
-      <div class="col-md-4">
-
-        <div class="profile-info">
-          <div class="">
-            <div>
-              <h2 class="no-margins">
-                {{ project.name }}
-              </h2>
-              <small>
-                {{ project.description }}
-              </small>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Project Detail</h5>
+            <div class="ibox-tools">
+              <a href="#project-form" data-toggle="modal">
+                <i class="fa fa-pencil-square"></i>
+              </a>
             </div>
+          </div>
+          <div class="ibox-content ibox-heading">
+            <h3><i class="fa fa-th-list"></i> {{ project.name }}</h3>
+            <small><i class="fa fa-tim"></i> {{ project.description }}</small>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
 
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Messages</h5>
+            <div class="ibox-tools">
+              <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+              <a class="close-link">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
+          </div>
+          <div class="ibox-content ibox-heading">
+            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
+            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
+          </div>
+        </div>
       </div>
-      <div class="col-md-4">
 
+      <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Messages</h5>
+            <div class="ibox-tools">
+              <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+              <a class="close-link">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
+          </div>
+          <div class="ibox-content ibox-heading">
+            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
+            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
+          </div>
+        </div>
       </div>
 
     </div>

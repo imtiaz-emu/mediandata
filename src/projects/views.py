@@ -10,17 +10,19 @@ def index(request):
 	projects = Project.objects.filter(user=request.user)
 	context = {
 		'projects': projects,
-		'new_project': ProjectForm()
+		'new_project': ProjectForm(),
+		'form_url': '/projects/create/'
 	}
 	return render(request, "projects/index.html", context)
 
 
 @login_required(login_url='/users/signin/')
 def show(request, id=None):
-	instance = get_object_or_404(Project, id=id)
+	project = get_object_or_404(Project, id=id)
 	context = {
-		'project': instance,
-		'edit_project': ProjectForm(instance)
+		'project': project,
+		'edit_project': ProjectForm(instance=project),
+		'form_url': '/projects/' + str(id) + '/update/'
 	}
 	return render(request, "projects/show.html", context)
 
@@ -30,10 +32,13 @@ def create(request):
 	if request.method == 'POST':
 		project_form = ProjectForm(request.POST)
 		if project_form.is_valid():
-			project = project_form.save(commit=False)
+			project = Project()
+			project.name = project_form.cleaned_data['name']
+			project.description = project_form.cleaned_data['description']
+			project.is_public = project_form.cleaned_data['is_public']
 			project.user = request.user
 			project.save()
-			messages.success(request, 'Your project was successfully updated!')
+			messages.success(request, 'Your project was successfully created!')
 			return redirect('projects:show', id=project.id)
 		else:
 			errors = ' '.join([' '.join(x for x in l) for l in list(project_form.errors.values())])
