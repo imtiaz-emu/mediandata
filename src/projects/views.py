@@ -8,6 +8,9 @@ from .models import Project
 @login_required(login_url='/users/signin/')
 def index(request):
 	projects = Project.objects.filter(user=request.user)
+	query = request.GET.get('q')
+	if query:
+		projects = projects.filter(name__contains=query)
 	context = {
 		'projects': projects,
 		'new_project': ProjectForm(),
@@ -70,3 +73,12 @@ def update(request, id=None):
 		'project_form': project_form,
 		'errors': errors
 	})
+
+
+@login_required(login_url='/users/signin/')
+def destroy(request, id=None):
+	project = get_object_or_404(Project, id=id)
+	project.delete()
+	messages.success(request, 'Your project was successfully deleted!')
+	return redirect('projects:index')
+
