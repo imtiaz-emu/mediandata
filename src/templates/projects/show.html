@@ -8,7 +8,7 @@
     {% include 'projects/form.html' with project=edit_project url=form_url %}
 
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-sm-12">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>Project Detail</h5>
@@ -24,45 +24,28 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-8">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
-            <h5>Messages</h5>
-            <div class="ibox-tools">
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-              <a class="close-link">
-                <i class="fa fa-times"></i>
-              </a>
+            <h5>Connect Remote Database OR File Upload</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="form-group">
+              <div class="col-sm-8">
+                <label class="radio-inline">
+                  <input type="radio" value="file" id="inlineRadio1" name="optionConnectionRadios"> Upload CSV file </label>
+                <label class="radio-inline">
+                  <input type="radio" value="database" id="inlineRadio2" name="optionConnectionRadios"> Connect Remote Database
+                </label>
+              </div>
             </div>
           </div>
-          <div class="ibox-content ibox-heading">
-            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-          </div>
         </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Messages</h5>
-            <div class="ibox-tools">
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-              <a class="close-link">
-                <i class="fa fa-times"></i>
-              </a>
-            </div>
-          </div>
-          <div class="ibox-content ibox-heading">
-            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-          </div>
-        </div>
+        {% include 'projects/connection_form.html' %}
+        {% include 'projects/upload_form.html' %}
       </div>
 
     </div>

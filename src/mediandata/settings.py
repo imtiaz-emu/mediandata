@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 	'users',
 	'profiles',
 	'projects',
+	'connected_databases',
 ]
 
 MIDDLEWARE = [

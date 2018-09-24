@@ -1,0 +1,42 @@
+{% load widget_tweaks %}
+{% load common %}
+
+<div id="data-connection-from" class="hidden">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>Connect To Remote Database</h5>
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <form role="form">
+            <div class="form-group">
+              <input type="text" placeholder="Database Type" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Custom Name" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Database Username" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Database password" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Remote Host Address (e.g. 192.168.2.3)" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="number" placeholder="Remote Host Port (e.g. 5432)" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Remote Database Name" class="form-control">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Connect</strong></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
