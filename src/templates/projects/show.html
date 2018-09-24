@@ -44,8 +44,8 @@
             </div>
           </div>
         </div>
-        {% include 'projects/connection_form.html' %}
-        {% include 'projects/upload_form.html' %}
+        {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
+        {% include 'projects/upload_form.html' with project_id=project.pk %}
       </div>
 
     </div>

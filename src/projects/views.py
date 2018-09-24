@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProjectForm
 from django.contrib import messages
 from .models import Project
+from connected_databases.forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
 
 
 @login_required(login_url='/users/signin/')
@@ -25,7 +26,8 @@ def show(request, id=None):
 	context = {
 		'project': project,
 		'edit_project': ProjectForm(instance=project),
-		'form_url': '/projects/' + str(id) + '/update/'
+		'form_url': '/projects/' + str(id) + '/update/',
+		'connection_form': ConnectedDatabaseForm()
 	}
 	return render(request, "projects/show.html", context)
 

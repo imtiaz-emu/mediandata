@@ -5,9 +5,9 @@ from projects.models import Project
 # Create your models here.
 class ConnectedDatabase(models.Model):
 	DATABASES = (
-		("PostgreSQL", "postgresql+psycopg2"),
-		("MySQL", "mysql+pymysql"),
-		("MSSQL", "mssql")
+		("postgresql+psycopg2", "PostgreSQL"),
+		("mysql+pymysql", "MySQL"),
+		("mssql", "MSSQL")
 	)
 
 	project = models.OneToOneField(Project, on_delete=models.CASCADE)
@@ -20,7 +20,7 @@ class ConnectedDatabase(models.Model):
 	password_hash = models.CharField(max_length=255, null=True, default="Test")
 	connection_string = models.CharField(max_length=255, null=True)
 	save_password = models.BooleanField()
-	database_type = models.CharField(max_length=255, null=True, choices=DATABASES, default='PostgreSQL')
+	database_type = models.CharField(max_length=255, null=True, choices=DATABASES, default='postgresql+psycopg2')
 	database_description = models.CharField(max_length=255, null=True)
 	advanced = models.CharField(max_length=255, null=True)
 	table_names = models.CharField(max_length=10000, null=True)
