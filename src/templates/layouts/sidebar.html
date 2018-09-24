@@ -7,8 +7,13 @@
         <div class="dropdown profile-element">
           {% if request.user.is_authenticated %}
             <span>
+            {% if request.user.profile.photo %}
               <img alt="image" class="img-circle"
                  src="{{ request.user.profile.photo.url }}"/>
+            {% else %}
+              <img alt="image" class="img-circle"
+                 src="{% static 'img/default_user.jpg' %}"/>
+            {% endif %}
             </span>
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
             <span class="clear"> <span class="block m-t-xs"> <strong

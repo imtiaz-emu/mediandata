@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 	'widget_tweaks',
 	'users',
 	'profiles',
+	'projects',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,9 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 			],
+			'libraries': {
+				'common': 'templatetags.common',
+			}
 		},
 	},
 ]

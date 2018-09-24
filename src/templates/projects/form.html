@@ -1,0 +1,47 @@
+{% load widget_tweaks %}
+{% load common %}
+
+<div id="project-form" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <a class="pull-right" data-dismiss="modal" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3 class="m-t-none m-b">
+              {% if project.pk == None %}
+                {{ "New Project" }}
+              {% else %}
+                {{ "Edit Project" }}
+              {% endif %}
+            </h3>
+
+            <form role="form" method="post" action="{{ url }}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label>Project Name</label>
+                {% render_field project.name class="form-control" placeholder="Project Name" %}
+              </div>
+              <div class="form-group">
+                <label>Project Description</label>
+                {% render_field project.description class="form-control" placeholder="Project Description" %}
+              </div>
+              <div class="form-group">
+                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+                  <strong>
+                    {% if project.pk == None %}
+                      {{ "Save" }}
+                    {% else %}
+                      {{ "Update" }}
+                    {% endif %}
+                  </strong>
+                </button>
+                <label> {% render_field project.is_public %} Make it Public </label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
