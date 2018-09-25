@@ -5,6 +5,7 @@ import json
 import urllib
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
+from django.template.loader import render_to_string
 import pandas as pd
 from .forms import ConnectedDatabaseForm
 from django.contrib import messages
@@ -18,7 +19,7 @@ def connect(request, project_id=None):
 	if request.POST.get("submit") == 'connect':
 		json_data = {
 			'tables': [],
-			'errors': []
+			'errors': ''
 		}
 		try:
 			engine = create_engine(connection_string)
@@ -27,20 +28,21 @@ def connect(request, project_id=None):
 			for i, table in enumerate(insp.get_table_names()):
 				json_data['tables'].append({'id': i, 'name': table, 'checked': False})
 			if not json_data['tables']:
-				json_data['errors'].append("Please create some tables in your database")
+				json_data['errors'] = "Please create some tables in your database"
 		except Exception as e:
 			if hasattr(e, 'orig'):
 				if hasattr(e.orig, 'message'):
 					if (e.orig.message):
-						json_data['errors'].append(e.orig.message)
+						json_data['errors'] = e.orig.message
 					else:
-						json_data['errors'].append("Error Code: " + str(e.orig[0]) + " Error Message: " + e.orig[1])
+						json_data['errors'] = ("Error Code: " + str(e.orig[0]) + " Error Message: " + e.orig[1])
 				elif hasattr(e.orig, 'args'):
-					json_data['errors'].append(e.orig.args[len(e.orig.args) - 1])
+					json_data['errors'] = (e.orig.args[len(e.orig.args) - 1])
 			else:
-				json_data['errors'].append("Sorry can not connect to database, check your connection information")
+				json_data['errors'] = "Sorry can not connect to database, check your connection information"
 
-	return HttpResponse(json.dumps({'data': json_data}), content_type='application/json')
+		template = render_to_string('projects/connection_info.html', json_data)
+		return HttpResponse(json.dumps(template), content_type='application/json')
 
 
 def create_db(request, project_id=None):

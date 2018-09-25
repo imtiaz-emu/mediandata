@@ -25,7 +25,7 @@ function toastrMessages(message, type) {
       timeOut: 4000
     };
     if (type == 'error')
-      toastr.error(message);
+      toastr.error(encodeURIComponent(message));
     else if (type == 'success')
       toastr.success(message);
 

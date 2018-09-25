@@ -5,22 +5,16 @@
   <div class="ibox-content">
     <form class="form" id="data-tables-info-form">
       <div class="form-group">
-        {% for table in data.tables %}
+        {% for table in tables %}
           <div>
-            <label> <input type="checkbox" value=""> Option one is  </label>
+            <label> <input type="checkbox" value="{{ table.name }}"> {{ table.name }} </label>
           </div>
-          <!--
-          <div>
-            <label> <input type="checkbox" value=""> Option one is this </label>
-          </div>
-          <div>
-            <label> <input type="checkbox" value=""> Option one is this and </label>
-          </div>
-          -->
         {% endfor %}
       </div>
       <div class="form-group">
-        <button class="btn btn-sm btn-white" type="submit">Save</button>
+        <button id='save-connection-btn' disabled onclick="saveTheConnection()" class="btn btn-sm btn-primary"
+                type="button">Save
+        </button>
       </div>
     </form>
   </div>
@@ -46,3 +40,38 @@
     </ol>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+
+    {% if errors != '' %}
+      toastrMessages('{{ errors|safe }}', 'error');
+      $('#save-connection-btn').attr('disabled', true);
+    {% endif %}
+
+    $('#data-tables-info-form input:checkbox').change(function () {
+      if ($("#data-tables-info-form input:checkbox:checked").length > 0) {
+        $('#save-connection-btn').attr('disabled', false);
+      }
+      else {
+        $('#save-connection-btn').attr('disabled', true);
+      }
+    });
+
+
+  });
+  function saveTheConnection() {
+    var frm = $('#data-connection-from form');
+    var chkArray = [];
+    $("input:checkbox:checked").each(function () {
+      chkArray.push($(this).val());
+    });
+    var selected = chkArray.join(',');
+
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: frm.serialize() + "&submit=save" + "&tables=" + selected
+    });
+  }
+</script>

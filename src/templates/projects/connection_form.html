@@ -34,7 +34,7 @@
               {% render_field form.database_name class="form-control" placeholder="Remote Database Name" %}
             </div>
             <div class="form-group">
-              <input class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Connect" name="connect" type="submit">
+              <input class="btn btn-sm btn-primary pull-right m-t-n-xs" id="data-connect-btn" value="Connect" type="button">
             </div>
           </form>
         </div>
@@ -47,16 +47,13 @@
   $(document).ready(function () {
 
     var frm = $('#data-connection-from form');
-    frm.submit(function () {
+    $('#data-connect-btn').click(function () {
       $.ajax({
         type: frm.attr('method'),
         url: frm.attr('action'),
         data: frm.serialize() + "&submit=connect",
         success: function (data) {
-          if(data['tables'].length > 0){
-            var connection = "{% include 'projects/connection_info.html' %}";
-            $('#data-connection-info').html(connection);
-          }
+          $('#data-connection-info').html(data);
           console.log(data);
         },
         error: function (data) {
