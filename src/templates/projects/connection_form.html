@@ -53,6 +53,10 @@
         url: frm.attr('action'),
         data: frm.serialize() + "&submit=connect",
         success: function (data) {
+          if(data['tables'].length > 0){
+            var connection = "{% include 'projects/connection_info.html' %}";
+            $('#data-connection-info').html(connection);
+          }
           console.log(data);
         },
         error: function (data) {

@@ -27,7 +27,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-md-8">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>Connect Remote Database OR File Upload</h5>
@@ -46,6 +46,11 @@
         </div>
         {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
         {% include 'projects/upload_form.html' with project_id=project.pk %}
+      </div>
+      <div class="col-md-4">
+        <div id="data-connection-info">
+          {% include 'projects/connection_info.html' with data=None %}
+        </div>
       </div>
 
     </div>

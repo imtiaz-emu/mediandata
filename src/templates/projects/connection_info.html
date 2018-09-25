@@ -1,0 +1,48 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Connected Tables</h5>
+  </div>
+  <div class="ibox-content">
+    <form class="form" id="data-tables-info-form">
+      <div class="form-group">
+        {% for table in data.tables %}
+          <div>
+            <label> <input type="checkbox" value=""> Option one is  </label>
+          </div>
+          <!--
+          <div>
+            <label> <input type="checkbox" value=""> Option one is this </label>
+          </div>
+          <div>
+            <label> <input type="checkbox" value=""> Option one is this and </label>
+          </div>
+          -->
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <button class="btn btn-sm btn-white" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Dashboard/Workboard List</h5>
+  </div>
+  <div class="ibox-content">
+    <h6>Dashboards</h6>
+    <ol>
+      <li>But I must explain</li>
+      <li>To you how all this mistaken</li>
+      <li>Idea of denouncing pleasure</li>
+    </ol>
+    <div class="hr-line-dashed"></div>
+    <h6>Workboards</h6>
+    <ol>
+      <li>But I must explain</li>
+      <li>To you how all this mistaken</li>
+      <li>Idea of denouncing pleasure</li>
+    </ol>
+  </div>
+</div>
