@@ -3,5 +3,5 @@ from .views import connect, create_csv
 
 urlpatterns = [
 	url(r'^connect/$', connect, name='connect'),
-	url(r'^create/$', create_csv, name='create'),
+	url(r'^create_csv/$', create_csv, name='create_csv'),
 ]

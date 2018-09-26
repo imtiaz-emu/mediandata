@@ -9,16 +9,19 @@
     <div class="ibox-content">
       <div class="row">
         <div class="col-sm-12">
-          <form role="form">
+          <form role="form" method="post"
+                action="{% url "projects:connected_databases:create_csv" project_id=project_id %}">
             <div class="form-group"><label>File name</label>
-              <input type="text" placeholder="Enter file name" class="form-control">
+              {% render_field form.file_name class="form-control" placeholder="Enter file name" %}
             </div>
             <div class="form-group">
               <label>Browse File</label>
-              <input type="file" class="form-control">
+              {% render_field form.file_location class="form-control" id="uploadConnectionCSV" %}
             </div>
             <div class="form-group">
-              <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Upload</strong></button>
+              <button id='upload-connection-btn' disabled class="btn btn-sm btn-primary"
+                      type="button">Upload
+              </button>
             </div>
           </form>
         </div>

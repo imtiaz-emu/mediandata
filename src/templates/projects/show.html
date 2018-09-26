@@ -29,8 +29,27 @@
     <div class="row">
       <div class="col-md-8">
         {% if db_connection %}
-          TODO: Database Connection Information
-
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Database Connection Information</h5>
+            </div>
+            <div class="ibox-content">
+              <dl class="dl-horizontal">
+                <dt>Database Name:</dt>
+                <dd>{{ db_connection.database_name }}</dd>
+                <dt>Custom Name:</dt>
+                <dd>{{ db_connection.custom_name }}</dd>
+                <dt>Database Host:</dt>
+                <dd>{{ db_connection.host_name }}</dd>
+                <dt>Database Port:</dt>
+                <dd>{{ db_connection.port }}</dd>
+                <dt>Selected Tables:</dt>
+                <dd>{{ db_connection.table_names }}</dd>
+                <dt>Database Type:</dt>
+                <dd>{{ db_connection.get_database_type_display }}</dd>
+              </dl>
+            </div>
+          </div>
         {% else %}
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -51,7 +70,7 @@
             </div>
           </div>
           {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
-          {% include 'projects/upload_form.html' with project_id=project.pk %}
+          {% include 'projects/upload_form.html' with project_id=project.pk form=upload_form %}
         {% endif %}
       </div>
       <div class="col-md-4">
