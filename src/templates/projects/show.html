@@ -28,29 +28,42 @@
 
     <div class="row">
       <div class="col-md-8">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Connect Remote Database OR File Upload</h5>
-          </div>
-          <div class="ibox-content">
-            <div class="form-group">
-              <div class="col-sm-8">
-                <label class="radio-inline">
-                  <input type="radio" value="file" id="inlineRadio1" name="optionConnectionRadios"> Upload CSV file </label>
-                <label class="radio-inline">
-                  <input type="radio" value="database" id="inlineRadio2" name="optionConnectionRadios"> Connect Remote Database
-                </label>
+        {% if db_connection %}
+          TODO: Database Connection Information
+
+        {% else %}
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Connect Remote Database OR File Upload</h5>
+            </div>
+            <div class="ibox-content">
+              <div class="form-group">
+                <div class="col-sm-8">
+                  <label class="radio-inline">
+                    <input type="radio" value="file" id="inlineRadio1" name="optionConnectionRadios"> Upload CSV file
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="database" id="inlineRadio2" name="optionConnectionRadios"> Connect Remote
+                    Database
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
-        {% include 'projects/upload_form.html' with project_id=project.pk %}
+          {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
+          {% include 'projects/upload_form.html' with project_id=project.pk %}
+        {% endif %}
       </div>
       <div class="col-md-4">
-        <div id="data-connection-info">
-          {% include 'projects/connection_info.html' with tables=None errors='' %}
-        </div>
+        {% if db_connection %}
+          <div>
+            {% include 'projects/analysis_boards.html' %}
+          </div>
+        {% else %}
+          <div id="data-connection-info">
+            {% include 'projects/connection_info.html' with tables=None errors='' %}
+          </div>
+        {% endif %}
       </div>
 
     </div>

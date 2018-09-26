@@ -4,6 +4,7 @@ from .forms import ProjectForm
 from django.contrib import messages
 from .models import Project
 from connected_databases.forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
+from connected_databases.models import ConnectedDatabase
 
 
 @login_required(login_url='/users/signin/')
@@ -23,12 +24,18 @@ def index(request):
 @login_required(login_url='/users/signin/')
 def show(request, id=None):
 	project = get_object_or_404(Project, id=id)
+	try:
+		database_connection = ConnectedDatabase.objects.get(project=project)
+	except ConnectedDatabase.DoesNotExist:
+		database_connection = None
+
 	context = {
 		'project': project,
 		'edit_project': ProjectForm(instance=project),
 		'form_url': '/projects/' + str(id) + '/update/',
 		'connection_form': ConnectedDatabaseForm(),
-		'upload_form': ConnectedDatabaseCSVForm()
+		'upload_form': ConnectedDatabaseCSVForm(),
+		'db_connection': database_connection
 	}
 	return render(request, "projects/show.html", context)
 
