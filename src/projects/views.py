@@ -27,7 +27,8 @@ def show(request, id=None):
 		'project': project,
 		'edit_project': ProjectForm(instance=project),
 		'form_url': '/projects/' + str(id) + '/update/',
-		'connection_form': ConnectedDatabaseForm()
+		'connection_form': ConnectedDatabaseForm(),
+		'upload_form': ConnectedDatabaseCSVForm()
 	}
 	return render(request, "projects/show.html", context)
 

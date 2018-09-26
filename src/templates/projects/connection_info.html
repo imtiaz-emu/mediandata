@@ -71,7 +71,13 @@
     $.ajax({
       type: frm.attr('method'),
       url: frm.attr('action'),
-      data: frm.serialize() + "&submit=save" + "&tables=" + selected
+      data: frm.serialize() + "&submit=save" + "&table_names=" + selected,
+      success: function (data) {
+        window.location.reload();
+      },
+      error: function (data) {
+        console.log("Error saving database", data);
+      }
     });
   }
 </script>

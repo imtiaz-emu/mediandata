@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 from django.template.loader import render_to_string
 import pandas as pd
-from .forms import ConnectedDatabaseForm
+from .forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
 from django.contrib import messages
 from .models import ConnectedDatabase
 from projects.models import Project
@@ -43,6 +43,15 @@ def connect(request, project_id=None):
 
 		template = render_to_string('projects/connection_info.html', json_data)
 		return HttpResponse(json.dumps(template), content_type='application/json')
+	elif request.POST.get("table_names"):
+		db_form = ConnectedDatabaseForm(request.POST)
+		if db_form.is_valid():
+			db_form.save(project, database_string_creation(request.POST))
+			messages.success(request, 'Database Connection was successfully Saved!')
+			return redirect('projects:show', id=project.id)
+		else:
+			errors = ' '.join([' '.join(x for x in l) for l in list(db_form.errors.values())])
+			return HttpResponse(json.dumps(errors), content_type='application/json')
 
 
 def create_db(request, project_id=None):
