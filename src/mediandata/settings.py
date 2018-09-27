@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 	'profiles',
 	'projects',
 	'connected_databases',
+	'analysis_types',
 ]
 
 MIDDLEWARE = [
