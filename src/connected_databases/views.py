@@ -12,6 +12,7 @@ from django.contrib import messages
 from .models import ConnectedDatabase
 from projects.models import Project
 
+
 # Create your views here.
 def connect(request, project_id=None):
 	project = Project.objects.get(id=project_id)
@@ -54,13 +55,36 @@ def connect(request, project_id=None):
 			return HttpResponse(json.dumps(errors), content_type='application/json')
 
 
-def create_db(request, project_id=None):
-	pass
-
-
 def create_csv(request, project_id=None):
-	pass
+	project = Project.objects.get(id=project_id)
+	csv_form = ConnectedDatabaseCSVForm(request.POST, request.FILES or None)
+	if csv_form.is_valid():
+		try:
+			con_string = 'postgresql://postgres:admin@localhost:5432/mediandata_uploads'
+			engine = create_engine(con_string)
+			customTablenames = []
 
+			if request.FILES['file_location'].name.endswith('.csv'):
+				data = pd.read_csv(request.FILES['file_location'])
+				tempName = project.name + "_" + project_id
+				customTablenames.append(tempName.replace(" ", "_"))
+				data.to_sql(customTablenames[-1], engine)
+			else:
+				data_sheets = pd.ExcelFile(request.FILES['file_location'])
+				for sheet in data_sheets.sheet_names:
+					data = pd.read_excel(data_sheets, data_sheets.sheet_names[0])
+					tempName = project.name + "_" + project_id + "_" + sheet
+					customTablenames.append(tempName.replace(" ", "_"))
+					data.to_sql(customTablenames[-1], engine)
+
+			csv_form.save(project, con_string, ",".join(customTablenames))
+
+			messages.success(request, 'Database Connection was successfully Saved!')
+			return redirect('projects:show', id=project.id)
+		except Exception as e:
+			return HttpResponse(json.dumps(str(e)), content_type='application/json')
+
+	return HttpResponse(json.dumps(csv_form.errors.values()), content_type='application/json')
 
 def database_string_creation(post_data):
 	if (post_data['database_type'] == 'mssql'):
@@ -73,8 +97,8 @@ def database_string_creation(post_data):
 
 	else:
 		database_string = str(post_data.get("database_type")) + "://" + str(
-		post_data.get("db_user_name")) + ":" + str(
-		post_data.get("password")) + "@" + str(post_data.get("host_name")) + ":" + str(
-		post_data.get("port")) + "/" + str(post_data.get("database_name"))
+			post_data.get("db_user_name")) + ":" + str(
+			post_data.get("password")) + "@" + str(post_data.get("host_name")) + ":" + str(
+			post_data.get("port")) + "/" + str(post_data.get("database_name"))
 
 	return database_string

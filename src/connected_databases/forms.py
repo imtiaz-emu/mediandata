@@ -35,3 +35,21 @@ class ConnectedDatabaseCSVForm(forms.ModelForm):
 		fields = [
 			'file_name', 'file_location',
 		]
+
+	def save(self, project = None, conc_string = None, table_names = None):
+		db_connection = ConnectedDatabase(
+			project = project,
+			database_name = 'mediandata_uploads',
+			custom_name = self.cleaned_data['file_name'],
+			host_name = "192.168.3.92",
+			port = '5432',
+			db_user_name = 'postgres',
+			password = 'admin',
+			connection_string = conc_string,
+			database_type = 'postgresql+psycopg2',
+			table_names = table_names,
+			isDatabaseConnection = False,
+			save_password = True
+		)
+		db_connection.save()
+		return db_connection
