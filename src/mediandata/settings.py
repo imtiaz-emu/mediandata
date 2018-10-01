@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 	'connected_databases',
 	'analysis_types',
 	'static_pages',
+	'dashboard',
+	'workboard',
 ]
 
 MIDDLEWARE = [
