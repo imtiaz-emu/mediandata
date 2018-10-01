@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+{% load common %}
+
+<div id="sheet-upload-from" class="hidden">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>Upload CSV/Excel file</h5>
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <form role="form" method="post" enctype="multipart/form-data"
+                action="{% url "projects:connected_databases:create_csv" project_id=project_id %}">
+            {% csrf_token %}
+            <div class="form-group"><label>File name</label>
+              {% render_field form.file_name class="form-control" placeholder="Enter file name" %}
+            </div>
+            <div class="form-group">
+              <label>Browse File</label>
+              {% render_field form.file_location class="form-control" id="uploadConnectionCSV" %}
+            </div>
+            <div class="form-group">
+              <button id='upload-connection-btn' disabled class="btn btn-sm btn-primary"
+                      type="submit">Upload
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

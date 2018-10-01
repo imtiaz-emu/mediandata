@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from .views import show, index, update, create, destroy
 
 urlpatterns = [
@@ -7,4 +7,5 @@ urlpatterns = [
 	url(r'^(?P<id>\d+)/$', show, name='show'),
 	url(r'^create/$', create, name='create'),
 	url(r'^$', index, name='index'),
+	url(r'^(?P<project_id>\d+)/connections/', include("connected_databases.urls", namespace='connected_databases')),
 ]

@@ -8,7 +8,7 @@
     {% include 'projects/form.html' with project=edit_project url=form_url %}
 
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-sm-12">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>Project Detail</h5>
@@ -24,45 +24,65 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-4">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Messages</h5>
-            <div class="ibox-tools">
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-              <a class="close-link">
-                <i class="fa fa-times"></i>
-              </a>
+    <div class="row">
+      <div class="col-md-8">
+        {% if db_connection %}
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Database Connection Information</h5>
+            </div>
+            <div class="ibox-content">
+              <dl class="dl-horizontal">
+                <dt>Database Name:</dt>
+                <dd>{{ db_connection.database_name }}</dd>
+                <dt>Custom Name:</dt>
+                <dd>{{ db_connection.custom_name }}</dd>
+                <dt>Database Host:</dt>
+                <dd>{{ db_connection.host_name }}</dd>
+                <dt>Database Port:</dt>
+                <dd>{{ db_connection.port }}</dd>
+                <dt>Selected Tables:</dt>
+                <dd>{{ db_connection.table_names }}</dd>
+                <dt>Database Type:</dt>
+                <dd>{{ db_connection.get_database_type_display }}</dd>
+              </dl>
             </div>
           </div>
-          <div class="ibox-content ibox-heading">
-            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
+        {% else %}
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Connect Remote Database OR File Upload</h5>
+            </div>
+            <div class="ibox-content">
+              <div class="form-group">
+                <div class="col-sm-8">
+                  <label class="radio-inline">
+                    <input type="radio" value="file" id="inlineRadio1" name="optionConnectionRadios"> Upload CSV file
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="database" id="inlineRadio2" name="optionConnectionRadios"> Connect Remote
+                    Database
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+          {% include 'projects/connection_form.html' with project_id=project.pk form=connection_form %}
+          {% include 'projects/upload_form.html' with project_id=project.pk form=upload_form %}
+        {% endif %}
       </div>
-
-      <div class="col-lg-4">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Messages</h5>
-            <div class="ibox-tools">
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-              <a class="close-link">
-                <i class="fa fa-times"></i>
-              </a>
-            </div>
+      <div class="col-md-4">
+        {% if db_connection %}
+          <div>
+            {% include 'projects/analysis_boards.html' %}
           </div>
-          <div class="ibox-content ibox-heading">
-            <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-            <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
+        {% else %}
+          <div id="data-connection-info">
+            {% include 'projects/connection_info.html' with tables=None errors='' %}
           </div>
-        </div>
+        {% endif %}
       </div>
 
     </div>

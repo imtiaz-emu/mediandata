@@ -1,0 +1,62 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Connected Tables</h5>
+  </div>
+  <div class="ibox-content">
+    <form class="form" id="data-tables-info-form">
+      <div class="form-group">
+        {% for table in tables %}
+          <div>
+            <label> <input type="checkbox" value="{{ table.name }}"> {{ table.name }} </label>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <button id='save-connection-btn' disabled onclick="saveTheConnection()" class="btn btn-sm btn-primary"
+                type="button">Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    {% if errors != '' %}
+      toastrMessages('{{ errors|safe }}', 'error');
+      $('#save-connection-btn').attr('disabled', true);
+    {% endif %}
+
+    $('#data-tables-info-form input:checkbox').change(function () {
+      if ($("#data-tables-info-form input:checkbox:checked").length > 0) {
+        $('#save-connection-btn').attr('disabled', false);
+      }
+      else {
+        $('#save-connection-btn').attr('disabled', true);
+      }
+    });
+
+
+  });
+  function saveTheConnection() {
+    var frm = $('#data-connection-from form');
+    var chkArray = [];
+    $("input:checkbox:checked").each(function () {
+      chkArray.push($(this).val());
+    });
+    var selected = chkArray.join(',');
+
+    $.ajax({
+      type: frm.attr('method'),
+      url: frm.attr('action'),
+      data: frm.serialize() + "&submit=save" + "&table_names=" + selected,
+      success: function (data) {
+        window.location.reload();
+      },
+      error: function (data) {
+        console.log("Error saving database", data);
+      }
+    });
+  }
+</script>

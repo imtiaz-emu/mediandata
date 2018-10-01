@@ -161,7 +161,7 @@ h5 {
 }
 .nav-header {
   padding: 33px 25px;
-  background: url("patterns/header-profile.png") no-repeat;
+  /*background: url("patterns/header-profile.png") no-repeat;*/
 }
 .pace-done .nav-header {
   transition: all 0.4s;
@@ -6913,7 +6913,7 @@ body.landing-page {
   padding-top: 80px;
   padding-bottom: 90px;
   background-color: #1ab394;
-  background-image: url('../img/landing/avatar_all.png');
+  /*background-image: url('../img/landing/avatar_all.png');*/
 }
 .landing-page .big-icon {
   font-size: 56px !important;
@@ -6922,7 +6922,7 @@ body.landing-page {
   color: #1ab394 !important;
 }
 .landing-page .contact {
-  background-image: url('../img/landing/word_map.png');
+  /*background-image: url('../img/landing/word_map.png');*/
   background-position: 50% 50%;
   background-repeat: no-repeat;
   margin-top: 60px;

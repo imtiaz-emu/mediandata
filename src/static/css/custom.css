@@ -7,3 +7,8 @@
     height: 48px;
     width: 48px;
 }
+/*home CSS */
+#inSlider img{
+    width: 100%;
+    height: 470px;
+}
