@@ -1,0 +1,45 @@
+- model: analysis_types.analysistype
+  pk: 1
+  fields:
+    name: analysis-bar-chart
+    title: Bar chart
+    button_class: btn
+    icon_class: fa fa-bar-chart
+    selected: FALSE
+    customClass: barChart
+- model: analysis_types.analysistype
+  pk: 2
+  fields:
+    name: analysis-pie-chart
+    title: Pie chart
+    button_class: btn
+    icon_class: fa fa-pie-chart
+    selected: FALSE
+    customClass: pieChart
+- model: analysis_types.analysistype
+  pk: 3
+  fields:
+    name: analysis-line-chart
+    title: Line chart
+    button_class: btn
+    icon_class: fa fa-line-chart
+    selected: FALSE
+    customClass: lineChart
+- model: analysis_types.analysistype
+  pk: 4
+  fields:
+    name: analysis-bubble-chart
+    title: Bubble chart
+    button_class: btn
+    icon_class: fa fa-circle-o
+    selected: FALSE
+    customClass: bubbleChart
+- model: analysis_types.analysistype
+  pk: 5
+  fields:
+    name: analysis-data-table
+    title: Table
+    button_class: btn
+    icon_class: fa fa-table
+    selected: TRUE
+    customClass: dataTableChart
