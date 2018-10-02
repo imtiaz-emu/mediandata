@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import Project
 from connected_databases.forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
 from connected_databases.models import ConnectedDatabase
+from workboard.models import Workboard
+from dashboard.models import Dashboard
 
 
 @login_required(login_url='/users/signin/')
@@ -24,6 +26,8 @@ def index(request):
 @login_required(login_url='/users/signin/')
 def show(request, id=None):
 	project = get_object_or_404(Project, id=id)
+	workboards = Workboard.objects.filter(project=project)
+	dashboards = Dashboard.objects.filter(project=project)
 	try:
 		database_connection = ConnectedDatabase.objects.get(project=project)
 	except ConnectedDatabase.DoesNotExist:
@@ -35,7 +39,9 @@ def show(request, id=None):
 		'form_url': '/projects/' + str(id) + '/update/',
 		'connection_form': ConnectedDatabaseForm(),
 		'upload_form': ConnectedDatabaseCSVForm(),
-		'db_connection': database_connection
+		'db_connection': database_connection,
+		'workboards': workboards,
+		'dashboards': dashboards
 	}
 	return render(request, "projects/show.html", context)
 

@@ -25,6 +25,7 @@ urlpatterns = [
 	url(r'^projects/', include("projects.urls", namespace='projects')),
 	url(r'^', include('static_pages.urls', namespace='static_pages')),
 	url(r'^workboards/', include('workboard.urls', namespace='workboard')),
+	url(r'^dashboards/', include('dashboard.urls', namespace='dashboard')),
 ]
 
 if settings.DEBUG:

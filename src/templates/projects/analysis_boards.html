@@ -5,16 +5,16 @@
   <div class="ibox-content">
     <h6>Dashboards</h6>
     <ol>
-      <li>But I must explain</li>
-      <li>To you how all this mistaken</li>
-      <li>Idea of denouncing pleasure</li>
+      {% for dashboard in db %}
+        <li><a href="{% url "dashboard:show" id=dashboard.id %}">{{ dashboard.name }}</a></li>
+      {% endfor %}
     </ol>
     <div class="hr-line-dashed"></div>
     <h6>Workboards</h6>
     <ol>
-      <li>But I must explain</li>
-      <li>To you how all this mistaken</li>
-      <li>Idea of denouncing pleasure</li>
+      {% for workboard in wb %}
+        <li><a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
+      {% endfor %}
     </ol>
   </div>
 </div>
