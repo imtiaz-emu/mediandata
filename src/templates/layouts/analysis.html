@@ -38,13 +38,15 @@
 <div id="wrapper">
   <div id="" class="gray-bg-bg analysis-board">
     {% include 'layouts/topbar.html' %}
-    {% block content %}
+    <div class="container-fluid m-t-lg">
+      {% block content %}
 
-    {% endblock content %}
+      {% endblock content %}
 
-    {% block script %}
+      {% block script %}
 
-    {% endblock script %}
+      {% endblock script %}
+    </div>
   </div>
 </div>
 </body>

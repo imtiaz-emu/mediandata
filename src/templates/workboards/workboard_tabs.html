@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs">
+  {% for workboard in wb_list %}
+    <li class="{% if workboard == wb %}active {% endif %}">
+      <a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
+    </li>
+  {% endfor %}
+  <li class=""><a href="javascript:void(0)"><i class="fa fa-plus"></i></a></li>
+</ul>
+<div class="tab-content">
+  <div id="wbtab-{{ wb.id }}" class="tab-pane active">
+    <div class="panel-body">
+      TODO: Add workboard Content
+    </div>
+  </div>
+</div>
