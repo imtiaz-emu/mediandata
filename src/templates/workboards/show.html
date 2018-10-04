@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="ibox-content" style="display: block;">
-
+          <div id="jstree2"></div>
         </div>
       </div>
     </div>
@@ -47,3 +47,15 @@
     </div>
   </div>
 {% endblock content %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      $('#jstree2').jstree({
+        'plugins': ["wholerow", "checkbox"], 'core': {
+          'data': JSON.parse("{{ js_tree|escapejs }}")
+        }
+      });
+    });
+  </script>
+{% endblock script %}
