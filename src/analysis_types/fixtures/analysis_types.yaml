@@ -4,7 +4,7 @@
     name: analysis-bar-chart
     title: Bar chart
     button_class: btn
-    icon_class: fa fa-bar-chart
+    icon_class: fa fa-chart-bar
     selected: FALSE
     customClass: barChart
 - model: analysis_types.analysistype
@@ -13,7 +13,7 @@
     name: analysis-pie-chart
     title: Pie chart
     button_class: btn
-    icon_class: fa fa-pie-chart
+    icon_class: fa fa-chart-pie
     selected: FALSE
     customClass: pieChart
 - model: analysis_types.analysistype
@@ -22,7 +22,7 @@
     name: analysis-line-chart
     title: Line chart
     button_class: btn
-    icon_class: fa fa-line-chart
+    icon_class: fa fa-chart-line
     selected: FALSE
     customClass: lineChart
 - model: analysis_types.analysistype
@@ -31,7 +31,7 @@
     name: analysis-bubble-chart
     title: Bubble chart
     button_class: btn
-    icon_class: fa fa-circle-o
+    icon_class: fa fa-bullseye
     selected: FALSE
     customClass: bubbleChart
 - model: analysis_types.analysistype
