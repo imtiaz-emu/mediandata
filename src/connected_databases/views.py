@@ -11,6 +11,8 @@ from .forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
 from django.contrib import messages
 from .models import ConnectedDatabase
 from projects.models import Project
+from workboard.models import Workboard
+from dashboard.models import Dashboard
 
 
 # Create your views here.
@@ -48,6 +50,7 @@ def connect(request, project_id=None):
 		db_form = ConnectedDatabaseForm(request.POST)
 		if db_form.is_valid():
 			db_form.save(project, database_string_creation(request.POST))
+			default_work_dash_board_create(project)
 			messages.success(request, 'Database Connection was successfully Saved!')
 			return redirect('projects:show', id=project.id)
 		else:
@@ -78,13 +81,14 @@ def create_csv(request, project_id=None):
 					data.to_sql(customTablenames[-1], engine)
 
 			csv_form.save(project, con_string, ",".join(customTablenames))
-
+			default_work_dash_board_create(project)
 			messages.success(request, 'Database Connection was successfully Saved!')
 			return redirect('projects:show', id=project.id)
 		except Exception as e:
 			return HttpResponse(json.dumps(str(e)), content_type='application/json')
 
 	return HttpResponse(json.dumps(csv_form.errors.values()), content_type='application/json')
+
 
 def database_string_creation(post_data):
 	if (post_data['database_type'] == 'mssql'):
@@ -102,3 +106,15 @@ def database_string_creation(post_data):
 			post_data.get("port")) + "/" + str(post_data.get("database_name"))
 
 	return database_string
+
+
+def default_work_dash_board_create(project):
+	project.dashboard_set.create(
+		name='New Dashboard'
+	)
+	project.workboard_set.create(
+		name='New Workboard',
+		analysis_type_id=5
+	)
+
+
