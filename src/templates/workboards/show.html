@@ -16,7 +16,7 @@
         <div class="ibox-content" style="display: block;">
           <ul class="list-inline">
             {% for an_type in analysis_types %}
-              <li class="m-xs"><i class="{{ an_type.icon_class }} fa-3x"></i></li>
+              <li class="m-xs"><i class="{{ an_type.icon_class }} fa-2x"></i></li>
             {% endfor %}
           </ul>
         </div>
@@ -31,7 +31,21 @@
             </a>
           </div>
         </div>
-        <div class="ibox-content" style="display: block;">
+        <div class="ibox-content features-list">
+          <div id="jstree1"></div>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Summary List</h5></span>
+          <div class="ibox-tools">
+            <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content features-list">
           <div id="jstree2"></div>
         </div>
       </div>
@@ -51,7 +65,7 @@
 {% block script %}
   <script>
     $(document).ready(function () {
-      $('#jstree2').jstree({
+      $('#jstree1').jstree({
         'plugins': ["wholerow", "checkbox"], 'core': {
           'data': JSON.parse("{{ js_tree|escapejs }}")
         }

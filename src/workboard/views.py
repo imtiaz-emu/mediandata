@@ -49,11 +49,9 @@ def get_js_tree(project):
 						"text": column['name']
 					}
 				)
-		print(fullVariablesList)
 		return json.dumps(fullVariablesList)
 
 	except Exception as e:
-		print(e)
 		return e
 
 
@@ -90,7 +88,7 @@ def findColumnType(type):
 
 def findIconType(column_type):
 	if column_type == 'string':
-		return 'fa fa-stripe'
+		return 'fa fa-font'
 	elif column_type == 'integer':
 		return 'fa fa-list-ol'
-	else: return 'fa fa-calender'
+	else: return 'fa fa-calendar'
