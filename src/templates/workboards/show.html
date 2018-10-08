@@ -6,7 +6,7 @@
     <div class="col-md-3">
       <div class="ibox float-e-margins">
         <div class="ibox-title">
-          <h5>Analysis Types</h5> <span class="label label-primary">MD</span>
+          <h5>Analysis Types</h5>
           <div class="ibox-tools">
             <a class="collapse-link">
               <i class="fa fa-chevron-up"></i>
@@ -16,7 +16,9 @@
         <div class="ibox-content" style="display: block;">
           <ul class="list-inline">
             {% for an_type in analysis_types %}
-              <li class="m-xs"><i class="{{ an_type.icon_class }} fa-2x"></i></li>
+              <li class="m-xs {% if workboard.analysis_type_id == an_type.id %}text-warning{% endif %}">
+                <i class="{{ an_type.icon_class }} fa-2x"></i>
+              </li>
             {% endfor %}
           </ul>
         </div>
@@ -55,6 +57,9 @@
         <div class="col-lg-12">
           <div class="tabs-container" id="workboard-tabs">
             {% include 'workboards/workboard_tabs.html' with wb_list=workboards wb=workboard %}
+            <div class="tab-content" id="workboard-tab-content">
+              {% include 'workboards/workboard_chart.html' with wb=workboard %}
+            </div>
           </div>
         </div>
       </div>
@@ -65,11 +70,71 @@
 {% block script %}
   <script>
     $(document).ready(function () {
-      $('#jstree1').jstree({
-        'plugins': ["wholerow", "checkbox"], 'core': {
-          'data': JSON.parse("{{ js_tree|escapejs }}")
+      loadJSTreeWithData("{{ js_tree|escapejs }}");
+
+      $('#jstree2').on('changed.jstree', (e, data) => {
+        var newSummaryList = $("#jstree2").jstree().get_selected(true);
+        console.log(newSummaryList);
+        if (newSummaryList != "") {
+          alert("TODO: Update Workboard");
         }
       });
+
+
+      $('#jstree1').on('select_node.jstree', (e, data) => {
+        data.instance.toggle_node(data.node);
+        var current_State = $("#jstree1").jstree('get_selected');
+        var newState = $("#jstree1").jstree().get_selected(true);
+        if (data.node.parent != "#") {
+          var collectionName = data.instance.get_node(data.node.parent).data.obj.collection_name;
+          var eachData = data.node;
+          createSingleNode("#jstree2", eachData.id, eachData.text, eachData.data, eachData.state, eachData.icon, collectionName, "last");
+          alert("TODO: Update Workboard");
+        }
+      });
+
+      $('#jstree1').on('deselect_node.jstree', (e, data) => {
+
+        var current_State = $("#jstree1").jstree('get_selected');
+        var newState = $("#jstree1").jstree().get_selected(true);
+
+        if (data.node.parent != "#") {
+          var collectionName = data.instance.get_node(data.node.parent).data.obj.collection_name;
+          var eachData = data.node;
+          deleteSingleNode(eachData);
+          alert("TODO: Update Workboard");
+        }
+      });
+
+      function createSingleNode(parent_node, new_node_id, new_node_text, new_node_data, new_node_state, new_node_icon, collection_name, position) {
+        $('#jstree2').jstree('create_node', $(parent_node), {
+          "text": new_node_text,
+          "id": new_node_id,
+          "data": new_node_data,
+          "state": new_node_state,
+          "icon": new_node_icon,
+          "collection_name": collection_name
+        }, position, false, false);
+      }
+
+      function deleteSingleNode(eachNode) {
+        $('#jstree2').jstree({core: {check_callback: true}});
+        var treeNodes = $('#jstree2').jstree(true)._model.data;
+        $('#jstree2').jstree(true).refresh();
+        var updatedTreeNodes = delete treeNodes[eachNode.id];
+
+        for (var propertyName in treeNodes) {
+          if (treeNodes[propertyName].id != "#")
+            createSingleNode("#jstree2", treeNodes[propertyName].id, treeNodes[propertyName].text,
+                    treeNodes[propertyName].data, treeNodes[propertyName].state, treeNodes[propertyName].icon,
+                    treeNodes[propertyName].parent, "last");
+        }
+      }
+
+      function callForWorkboardData(analysis_type, workboard_id, variables) {
+
+      }
+
     });
   </script>
 {% endblock script %}

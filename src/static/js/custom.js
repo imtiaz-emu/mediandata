@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  loadEmptyJSTree();
   $('input:radio[name="optionConnectionRadios"]').change(
       function () {
         if ($(this).is(':checked') && $(this).val() == 'file') {
@@ -44,4 +45,28 @@ function toastrMessages(message, type) {
       toastr.success(message);
 
   }, 500);
+}
+
+function loadEmptyJSTree() {
+  $('#jstree2').jstree({
+    "core": {
+      "animation": 0,
+      "check_callback": true,
+      "themes": {"stripes": true},
+      'data': ""
+    },
+    "checkbox": {"keep_selected_style": false},
+    "plugins": [
+      "checkbox", "search",
+      "types"
+    ]
+  });
+}
+
+function loadJSTreeWithData(data) {
+  $('#jstree1').jstree({
+    'plugins': ["wholerow", "checkbox"], 'core': {
+      'data': JSON.parse(data)
+    }
+  });
 }
