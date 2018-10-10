@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
+import pandas as pd
 from .models import Workboard
 from analysis_types.models import AnalysisType
 from connected_databases.models import ConnectedDatabase
@@ -22,6 +25,43 @@ def show(request, id=None):
 	}
 	return render(request, "workboards/show.html", context)
 
+
+@csrf_exempt
+def data_table(request, id=None):
+	workboard = get_object_or_404(Workboard, id=id)
+	dbCon = ConnectedDatabase.objects.get(project=workboard.project)
+	variables = json.loads(request.POST.get('variables', None))
+	engine = create_engine(dbCon.connection_string, echo=True)
+	cnx = engine.raw_connection()
+	collection_name = list(variables.keys())[0]
+	column_names = list(variables[list(variables.keys())[0]])
+	query_string = 'Select ' + ','.join(column_names) + ' FROM \"' + collection_name + "\""
+
+	try:
+		queryData = pd.read_sql(query_string, cnx)
+
+		resultData = queryData.to_dict('records')
+		json_data = {
+			'data': resultData,
+			'analysis_type': 'table',
+			'columns': column_names,
+			'workboard': workboard
+		}
+
+	except Exception as e:
+		json_data = {
+			'analysis_type': 'table',
+			'error': e.args[0],
+			'workboard': workboard
+		}
+
+	template = render_to_string('workboards/workboard_chart.html', json_data)
+	return HttpResponse(json.dumps(template), content_type='application/json')
+
+
+@csrf_exempt
+def data_chart(request, id=None):
+	pass
 
 def get_js_tree(project):
 	data_connection = ConnectedDatabase.objects.get(project=project)

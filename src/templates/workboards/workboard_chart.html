@@ -1,5 +1,36 @@
-<div id="wbtab-{{ wb.id }}" class="tab-pane active">
+<div id="wbtab-{{ workboard.pk }}" class="tab-pane active">
   <div class="panel-body">
-    TODO: Add workboard Content
+    {% if error %}
+      <div class="well">
+        <h3 class="text-danger">Error:</h3>
+        <h4>{{ error }}</h4>
+      </div>
+    {% else %}
+      <table class="table" id="dataTable">
+        <thead>
+        <tr>
+          {% for column in columns %}
+            <th>{{ column }}</th>
+          {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+          <tr>
+            {% for key, value in row.items %}
+              <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    <div id="dataChart"></div>
   </div>
 </div>
+
+<script>
+  {% if data %}
+    $('#dataTable').DataTable();
+  {% endif %}
+</script>

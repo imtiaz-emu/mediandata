@@ -7,6 +7,7 @@
     icon_class: fa fa-chart-bar
     selected: FALSE
     customClass: barChart
+    analytics: bar
 - model: analysis_types.analysistype
   pk: 2
   fields:
@@ -16,6 +17,7 @@
     icon_class: fa fa-chart-pie
     selected: FALSE
     customClass: pieChart
+    analytics: pie
 - model: analysis_types.analysistype
   pk: 3
   fields:
@@ -25,6 +27,7 @@
     icon_class: fa fa-chart-line
     selected: FALSE
     customClass: lineChart
+    analytics: line
 - model: analysis_types.analysistype
   pk: 4
   fields:
@@ -34,6 +37,7 @@
     icon_class: fa fa-bullseye
     selected: FALSE
     customClass: bubbleChart
+    analytics: bubble
 - model: analysis_types.analysistype
   pk: 5
   fields:
@@ -43,3 +47,4 @@
     icon_class: fa fa-table
     selected: TRUE
     customClass: dataTableChart
+    analytics: table

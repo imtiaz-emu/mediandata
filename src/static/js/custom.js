@@ -92,7 +92,7 @@ function loadEmptyJSTree() {
     "checkbox": {"keep_selected_style": false},
     "plugins": [
       "checkbox", "search",
-      "types"
+      "types", "crrm"
     ]
   });
 }
@@ -118,6 +118,9 @@ function createSingleNode(parent_node, new_node_id, new_node_text, new_node_data
 }
 
 function deleteSingleNode(eachNode) {
+  $("#jstree2").jstree("delete_node", "#" + eachNode.id);
+
+  /*
   $('#jstree2').jstree({core: {check_callback: true}});
   var treeNodes = $('#jstree2').jstree(true)._model.data;
   $('#jstree2').jstree(true).refresh();
@@ -129,6 +132,7 @@ function deleteSingleNode(eachNode) {
           treeNodes[propertyName].data, treeNodes[propertyName].state, treeNodes[propertyName].icon,
           treeNodes[propertyName].parent, "last");
   }
+  */
   generateWorkboardCallData();
 }
 
@@ -145,7 +149,21 @@ function getSelectedAnalysisType() {
 
 function callForWorkboardData(analysisType, variables) {
   var path = window.location.pathname;
-  console.log(analysisType, variables);
+  if (analysisType == 'table')
+    path += "data_table/";
+  else path += "data_chart/";
+
+  $.ajax({
+    type: 'POST',
+    url: path,
+    data: {'variables': JSON.stringify(variables)},
+    success: function (data) {
+      $('#workboard-tab-content').html(data);
+    },
+    error: function (data) {
+      console.log(data);
+    }
+  });
 }
 
 function generateWorkboardCallData() {
@@ -159,7 +177,7 @@ function generateWorkboardCallData() {
     }
     else variables[node.original.collection_name].push(node.text);
   });
-  if (analysisType == 'table') {
-    callForWorkboardData(analysisType, variables);
-  }
+
+  callForWorkboardData(analysisType, variables);
+
 }
