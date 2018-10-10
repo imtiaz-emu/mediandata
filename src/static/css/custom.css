@@ -18,3 +18,7 @@
     max-height: 200px;
     overflow-y: scroll;
 }
+.add-workboard-button a{
+    padding: 10px 20px 10px 25px;
+    vertical-align: middle;
+}

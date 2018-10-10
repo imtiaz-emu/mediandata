@@ -8,10 +8,20 @@ from sqlalchemy.engine import reflection
 import pandas as pd
 from .models import Workboard
 from analysis_types.models import AnalysisType
+from projects.models import Project
 from connected_databases.models import ConnectedDatabase
 
 
 # Create your views here.
+def create(request):
+	project = Project.objects.get(id=request.POST.get('project_id'))
+	workboard = project.workboard_set.create(
+		name='New Workboard',
+		analysis_type_id=5
+	)
+	return redirect('workboard:show', id=workboard.pk)
+
+
 def show(request, id=None):
 	workboard = get_object_or_404(Workboard, id=id)
 	workboards = Workboard.objects.filter(project=workboard.project)
@@ -62,6 +72,7 @@ def data_table(request, id=None):
 @csrf_exempt
 def data_chart(request, id=None):
 	pass
+
 
 def get_js_tree(project):
 	data_connection = ConnectedDatabase.objects.get(project=project)
@@ -131,4 +142,5 @@ def findIconType(column_type):
 		return 'fa fa-font'
 	elif column_type == 'integer':
 		return 'fa fa-list-ol'
-	else: return 'fa fa-calendar'
+	else:
+		return 'fa fa-calendar'

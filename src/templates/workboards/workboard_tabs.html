@@ -4,5 +4,12 @@
       <a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
     </li>
   {% endfor %}
-  <li class=""><a href="javascript:void(0)"><i class="fa fa-plus"></i></a></li>
+
+  <form role="form" method="post" action="{% url "workboard:create" %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{ wb.project_id }}" name="project_id">
+    <li class="add-workboard-button">
+      <a href="javascript:$('form').submit();"><i class="fa fa-plus"></i></a>
+    </li>
+  </form>
 </ul>
