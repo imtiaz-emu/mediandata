@@ -9,7 +9,8 @@
     {% csrf_token %}
     <input type="hidden" value="{{ wb.project_id }}" name="project_id">
     <li class="add-workboard-button">
-      <a href="javascript:$('form').submit();"><i class="fa fa-plus"></i></a>
+      <a href="javascript:$('form').submit();">
+        <span class="badge"><i class="fa fa-plus"></i></span></a>
     </li>
   </form>
 </ul>

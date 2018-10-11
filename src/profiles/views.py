@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .decorators import current_user_profile
-from django.contrib.auth.models import User
 from .forms import ProfileForm, UserForm
 from django.contrib import messages
 from .models import Profile

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load common %}
 
 <!DOCTYPE html>
 <html>
@@ -6,6 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
 
   <title>MedianData | Dashboard</title>
 
@@ -36,7 +38,8 @@
 
 <body>
 <div id="wrapper">
-  {% include 'layouts/sidebar.html' %}
+  {% user_projects user.id as project_lists %}
+  {% include 'layouts/sidebar.html' with proj_lists=project_lists %}
   <div id="page-wrapper" class="gray-bg dashbard-1">
     {% include 'layouts/topbar.html' %}
     {% block content %}
