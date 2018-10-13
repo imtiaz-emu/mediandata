@@ -166,17 +166,24 @@ function callForWorkboardData(analysisType, variables) {
   });
 }
 
+function generateChartRestriction(analysisType, variables) {
+
+}
+
 function generateWorkboardCallData() {
   var analysisType = getSelectedAnalysisType();
   var summaryList = $("#jstree2").jstree().get_selected(true);
   var variables = {};
+
   summaryList.forEach(function (node) {
     if (variables[node.original.collection_name] == undefined) {
       variables[node.original.collection_name] = [];
-      variables[node.original.collection_name].push(node.text);
+      variables[node.original.collection_name].push({'name': node.text, 'type': node.data.objId.Var_Type});
     }
-    else variables[node.original.collection_name].push(node.text);
+    else variables[node.original.collection_name].push({'name': node.text, 'type': node.data.objId.Var_Type});
   });
+
+  // console.log(variables);
 
   callForWorkboardData(analysisType, variables);
 

@@ -44,7 +44,8 @@ def data_table(request, id=None):
 	engine = create_engine(dbCon.connection_string, echo=True)
 	cnx = engine.raw_connection()
 	collection_name = list(variables.keys())[0]
-	column_names = list(variables[list(variables.keys())[0]])
+	column_names = [x['name'] for x in variables[collection_name]]
+	column_types = [x['type'] for x in variables[collection_name]]
 	query_string = 'Select ' + ','.join(column_names) + ' FROM \"' + collection_name + "\""
 
 	try:
@@ -97,7 +98,8 @@ def get_js_tree(project):
 						"icon": findIconType(column_type),
 						"id": table + "_" + column['name'],
 						"parent": table,
-						"text": column['name']
+						"text": column['name'],
+						"var_type": column_type
 					}
 				)
 		return json.dumps(fullVariablesList)
