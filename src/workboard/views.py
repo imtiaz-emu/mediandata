@@ -72,7 +72,66 @@ def data_table(request, id=None):
 
 @csrf_exempt
 def data_chart(request, id=None):
-	pass
+	workboard = get_object_or_404(Workboard, id=id)
+	dbCon = ConnectedDatabase.objects.get(project=workboard.project)
+	variables = json.loads(request.POST.get('variables', None))
+	engine = create_engine(dbCon.connection_string, echo=True)
+	cnx = engine.raw_connection()
+	collection_name = list(variables.keys())[0]
+	
+	yaxis = []
+	column_names = []
+	column_types = []
+	for item in variables[collection_name]:
+		column_names.append(item['name'])
+		column_types.append(item['type'])
+		if item['type'] == 'string':
+			xaxis = item['name']
+		else:
+			yaxis.append(item['name'])
+
+	finalResult = []
+
+	try:
+		for chart_yaxis in yaxis:
+			data = pd.read_sql(
+				'Select \"' + collection_name + "\".\"" + xaxis + '\" as label, \"' + collection_name + "\".\"" + chart_yaxis + '\" as value FROM \"' + collection_name + "\"",
+				cnx)
+
+			datasum = data.groupby(['label']).sum()
+			datasum['index_col'] = range(0, len(datasum))
+			datamin = data.groupby(['label']).min()
+			datamin['index_col'] = range(0, len(datamin))
+			datamax = data.groupby(['label']).max()
+			datamax['index_col'] = range(0, len(datamax))
+			dataavg = data.groupby(['label']).mean()
+			dataavg['index_col'] = range(0, len(dataavg))
+
+			resultsumdump = json.JSONDecoder().decode(datasum.reset_index().to_json(orient="records"))
+			resultmindump = json.JSONDecoder().decode(datamin.reset_index().to_json(orient="records"))
+			resultmaxdump = json.JSONDecoder().decode(datamax.reset_index().to_json(orient="records"))
+			resultavgdump = json.JSONDecoder().decode(dataavg.reset_index().to_json(orient="records"))
+
+			finalResult.append(
+				{"sum": resultsumdump, "avg": resultavgdump, "min": resultmindump, "max": resultmaxdump,
+				 "var_name": chart_yaxis})
+
+		json_data = {
+			'data': finalResult,
+			'analysis_type': request.POST.get('type', None),
+			'columns': column_names,
+			'workboard': workboard
+		}
+
+	except Exception as e:
+		json_data = {
+			'analysis_type': request.POST.get('type', None),
+			'error': e.args[0],
+			'workboard': workboard
+		}
+
+	template = render_to_string('workboards/workboard_chart.html', json_data)
+	return HttpResponse(json.dumps(template), content_type='application/json')
 
 
 def get_js_tree(project):

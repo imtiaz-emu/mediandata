@@ -158,9 +158,10 @@ function callForWorkboardData(analysisType, variables) {
   $.ajax({
     type: 'POST',
     url: path,
-    data: {'variables': JSON.stringify(variables)},
+    data: {'variables': JSON.stringify(variables), 'type': analysisType},
     success: function (data) {
       $('#workboard-tab-content').html(data);
+      console.log(data);
     },
     error: function (data) {
       console.log(data);
@@ -176,10 +177,10 @@ function generateChartRestriction(analysisType, variables) {
       return v.type;
     });
 
-    if(column_types.integer == undefined){
+    if (column_types.integer == undefined) {
       column_types['integer'] = [];
     }
-    if(column_types.string == undefined){
+    if (column_types.string == undefined) {
       column_types['integer'] = [];
     }
 
@@ -208,6 +209,9 @@ function generateChartRestriction(analysisType, variables) {
       }
     }
     else return true;
+  } else {
+    toastrMessages('Our system currently not supporting Table Joins', 'info');
+    return false;
   }
 }
 

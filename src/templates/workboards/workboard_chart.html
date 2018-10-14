@@ -30,7 +30,7 @@
 </div>
 
 <script>
-  {% if data %}
+  {% if data and analysis_type == 'table' %}
     $('#dataTable').DataTable();
   {% endif %}
 </script>
