@@ -77,6 +77,8 @@ function toastrMessages(message, type) {
       toastr.error(encodeURIComponent(message));
     else if (type == 'success')
       toastr.success(message);
+    else if (type == 'info')
+      toastr.info(message);
 
   }, 500);
 }
@@ -121,18 +123,18 @@ function deleteSingleNode(eachNode) {
   $("#jstree2").jstree("delete_node", "#" + eachNode.id);
 
   /*
-  $('#jstree2').jstree({core: {check_callback: true}});
-  var treeNodes = $('#jstree2').jstree(true)._model.data;
-  $('#jstree2').jstree(true).refresh();
-  var updatedTreeNodes = delete treeNodes[eachNode.id];
+   $('#jstree2').jstree({core: {check_callback: true}});
+   var treeNodes = $('#jstree2').jstree(true)._model.data;
+   $('#jstree2').jstree(true).refresh();
+   var updatedTreeNodes = delete treeNodes[eachNode.id];
 
-  for (var propertyName in treeNodes) {
-    if (treeNodes[propertyName].id != "#")
-      createSingleNode("#jstree2", treeNodes[propertyName].id, treeNodes[propertyName].text,
-          treeNodes[propertyName].data, treeNodes[propertyName].state, treeNodes[propertyName].icon,
-          treeNodes[propertyName].parent, "last");
-  }
-  */
+   for (var propertyName in treeNodes) {
+   if (treeNodes[propertyName].id != "#")
+   createSingleNode("#jstree2", treeNodes[propertyName].id, treeNodes[propertyName].text,
+   treeNodes[propertyName].data, treeNodes[propertyName].state, treeNodes[propertyName].icon,
+   treeNodes[propertyName].parent, "last");
+   }
+   */
   generateWorkboardCallData();
 }
 
@@ -167,7 +169,46 @@ function callForWorkboardData(analysisType, variables) {
 }
 
 function generateChartRestriction(analysisType, variables) {
+  var collection = Object.keys(variables);
 
+  if (collection.length == 1) {
+    var column_types = _.groupBy(variables[collection[0]], function (v) {
+      return v.type;
+    });
+
+    if(column_types.integer == undefined){
+      column_types['integer'] = [];
+    }
+    if(column_types.string == undefined){
+      column_types['integer'] = [];
+    }
+
+    if (analysisType == 'bar' || analysisType == 'line') {
+      if (column_types.integer.length >= 1 && column_types.string.length == 1) {
+        return true;
+      } else {
+        toastrMessages('For Bar/Line Chart you need to select one string and multiple integer', 'info');
+        return false;
+      }
+    }
+    else if (analysisType == 'pie') {
+      if (column_types.integer.length == 1 && column_types.string.length == 1) {
+        return true;
+      } else {
+        toastrMessages('For Pie Chart you need to select one string and one integer', 'info');
+        return false;
+      }
+    }
+    else if (analysisType == 'bubble') {
+      if (column_types.integer.length == 2 && column_types.string.length == 1) {
+        return true;
+      } else {
+        toastrMessages('For Bubble Chart you need to select one string and two integer', 'info');
+        return false;
+      }
+    }
+    else return true;
+  }
 }
 
 function generateWorkboardCallData() {
@@ -183,8 +224,8 @@ function generateWorkboardCallData() {
     else variables[node.original.collection_name].push({'name': node.text, 'type': node.data.objId.Var_Type});
   });
 
-  // console.log(variables);
-
-  callForWorkboardData(analysisType, variables);
+  if (generateChartRestriction(analysisType, variables)) {
+    callForWorkboardData(analysisType, variables);
+  }
 
 }
