@@ -5,7 +5,7 @@
         <h3 class="text-danger">Error:</h3>
         <h4>{{ error }}</h4>
       </div>
-    {% else %}
+    {% elif data and analysis_type == 'table' %}
       <table class="table" id="dataTable">
         <thead>
         <tr>
@@ -24,13 +24,47 @@
         {% endfor %}
         </tbody>
       </table>
+    {% elif data and analysis_type != 'table' %}
+      <div id="dataChart">
+        <svg></svg>
+      </div>
     {% endif %}
-    <div id="dataChart"></div>
   </div>
 </div>
 
 <script>
   {% if data and analysis_type == 'table' %}
     $('#dataTable').DataTable();
+  {% elif data and analysis_type == 'bar' %}
+    function getProcessedData(data, inputType) {
+      data = [
+        {
+          key: "Emu",
+          values: [{x: 0, y: 1.93}]
+        }
+      ];
+      return data;
+    }
+
+    nv.addGraph(function () {
+      var chart = nv.models.multiBarChart();
+
+      chart.xAxis
+              .tickFormat(d3.format(',f'));
+
+      chart.yAxis
+              .tickFormat(d3.format(',.1f'));
+
+      d3.select('#dataChart svg')
+              .datum(getProcessedData("{{ data|escapejs }}", 'sum'))
+              .transition().duration(500)
+              .call(chart)
+      ;
+
+      nv.utils.windowResize(chart.update);
+
+      return chart;
+    });
+
   {% endif %}
 </script>
