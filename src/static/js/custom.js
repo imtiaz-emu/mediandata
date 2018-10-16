@@ -209,7 +209,12 @@ function generateChartRestriction(analysisType, variables) {
       }
     }
     else return true;
-  } else {
+  }
+  else if (collection.length == 0) {
+    toastrMessages('Please select some variables from Features List', 'info');
+    return false;
+  }
+  else {
     toastrMessages('Our system currently not supporting Table Joins', 'info');
     return false;
   }
