@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  loadEmptyJSTree();
+
   $('input:radio[name="optionConnectionRadios"]').change(
       function () {
         if ($(this).is(':checked') && $(this).val() == 'file') {
@@ -161,7 +161,7 @@ function callForWorkboardData(analysisType, variables) {
     data: {'variables': JSON.stringify(variables), 'type': analysisType},
     success: function (data) {
       $('#workboard-tab-content').html(data);
-      console.log(data);
+      // console.log(data);
     },
     error: function (data) {
       console.log(data);

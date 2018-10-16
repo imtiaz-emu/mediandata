@@ -37,26 +37,33 @@
     $('#dataTable').DataTable();
   {% elif data and analysis_type == 'bar' %}
     function getProcessedData(data, inputType) {
-      data = [
-        {
-          key: "Emu",
-          values: [{x: 0, y: 1.93}]
-        }
-      ];
+      var fetchedData = JSON.parse(data);
+      data = [];
+      fetchedData.forEach(function (variable) {
+        data.push({
+          key: variable.var_name,
+          values: variable.sum
+        })
+      });
+
       return data;
     }
 
     nv.addGraph(function () {
-      var chart = nv.models.multiBarChart();
+      var chart = nv.models.multiBarChart()
+              .x(function (d) {
+                return d.label
+              })
+              .y(function (d) {
+                return d.value
+              });
 
-      chart.xAxis
-              .tickFormat(d3.format(',f'));
+      chart.xAxis.rotateLabels('45');
 
-      chart.yAxis
-              .tickFormat(d3.format(',.1f'));
+      chart.yAxis.tickFormat(d3.format(',.3f'));
 
       d3.select('#dataChart svg')
-              .datum(getProcessedData("{{ data|escapejs }}", 'sum'))
+              .datum(getProcessedData("{{ data|safe|escapejs }}", 'sum'))
               .transition().duration(500)
               .call(chart)
       ;

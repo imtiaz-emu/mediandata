@@ -54,7 +54,6 @@
         data: frm.serialize() + "&submit=connect",
         success: function (data) {
           $('#data-connection-info').html(data);
-          console.log(data);
         },
         error: function (data) {
           console.log("Error");

@@ -113,11 +113,11 @@ def data_chart(request, id=None):
 			resultavgdump = json.JSONDecoder().decode(dataavg.reset_index().to_json(orient="records"))
 
 			finalResult.append(
-				{"sum": resultsumdump, "avg": resultavgdump, "min": resultmindump, "max": resultmaxdump,
-				 "var_name": chart_yaxis})
+				{'sum': resultsumdump, 'avg': resultavgdump, 'min': resultmindump, 'max': resultmaxdump,
+				 'var_name': chart_yaxis})
 
 		json_data = {
-			'data': finalResult,
+			'data': json.dumps(finalResult),
 			'analysis_type': request.POST.get('type', None),
 			'columns': column_names,
 			'workboard': workboard
