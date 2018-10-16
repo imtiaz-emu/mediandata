@@ -238,3 +238,28 @@ function generateWorkboardCallData() {
   }
 
 }
+
+function getProcessedBarChartData(data, inputType) {
+  var fetchedData = JSON.parse(data);
+  data = [];
+  fetchedData.forEach(function (variable) {
+    data.push({
+      key: variable.var_name,
+      values: variable.sum
+    })
+  });
+
+  return data;
+}
+
+function getProcessedPieChartData(data, inputType) {
+  var fetchedData = JSON.parse(data);
+  data = [];
+  fetchedData.forEach(function (variable) {
+    variable.sum.forEach(function (item) {
+      data.push(item);
+    });
+  });
+
+  return data;
+}
