@@ -37,7 +37,7 @@
     $('#dataTable').DataTable();
   {% elif data and analysis_type == 'bar' %}
     nv.addGraph(function () {
-      var height = 400;
+      var height = 420;
       var chart = nv.models.multiBarChart()
               .x(function (d) {
                 return d.label
@@ -46,8 +46,8 @@
                 return d.value
               })
               .height(height)
-              .margin({left: '60'});
-
+              .margin({left: 80,top: 20,bottom: 120,right: 20})
+      ;
       chart.xAxis.rotateLabels('-45');
 
       chart.yAxis.tickFormat(d3.format(',.3f'))
@@ -79,6 +79,45 @@
               .datum(getProcessedPieChartData("{{ data|safe|escapejs }}", 'sum'))
               .transition().duration(350)
               .call(chart);
+
+      return chart;
+    });
+  {% elif data and analysis_type == 'line' %}
+    nv.addGraph(function () {
+      var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
+      var value_list = [];
+      var categories = [];
+      for (var i = 0; i < data.length; i++) {
+        data[i].values.forEach(function (item) {
+          value_list.push(item.index_col);
+          categories.push(item.label);
+        })
+      }
+      var chart = nv.models.lineChart()
+                      .x(function (d) {
+                        return d.index_col
+                      })
+                      .y(function (d) {
+                        return d.value
+                      })
+                      .margin({left: 80,top: 20,bottom: 120,right: 20})
+              ;
+      chart.xAxis.rotateLabels('-45')
+              .showMaxMin(false)
+              .tickValues(value_list)
+              .tickFormat(function (d) {
+                return categories[d];
+              });
+
+      chart.yAxis
+              .tickFormat(d3.format(',.2f'));
+
+      d3.select('#dataChart svg')
+              .datum(data)
+              .transition().duration(500)
+              .call(chart);
+
+      nv.utils.windowResize(chart.update);
 
       return chart;
     });
