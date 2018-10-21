@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 import json
 import urllib
+import re
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 from django.template.loader import render_to_string
@@ -70,13 +71,15 @@ def create_csv(request, project_id=None):
 			if request.FILES['file_location'].name.endswith('.csv'):
 				data = pd.read_csv(request.FILES['file_location'])
 				tempName = project.name + "_" + project_id
+				data.columns = renameUploadFileColumns(data.keys())
 				customTablenames.append(tempName.replace(" ", "_"))
 				data.to_sql(customTablenames[-1], engine)
 			else:
 				data_sheets = pd.ExcelFile(request.FILES['file_location'])
-				for sheet in data_sheets.sheet_names:
-					data = pd.read_excel(data_sheets, data_sheets.sheet_names[0])
+				for index, sheet in enumerate(data_sheets.sheet_names):
+					data = pd.read_excel(data_sheets, data_sheets.sheet_names[index])
 					tempName = project.name + "_" + project_id + "_" + sheet
+					data.columns = renameUploadFileColumns(data.keys())
 					customTablenames.append(tempName.replace(" ", "_"))
 					data.to_sql(customTablenames[-1], engine)
 
@@ -117,4 +120,11 @@ def default_work_dash_board_create(project):
 		analysis_type_id=5
 	)
 
+def renameUploadFileColumns(column_names):
+	new_column_names = []
+	for name in column_names:
+		name = re.sub(r"[-()\"#/@;:<>{}`+=~|.!?,]", "", name)
+		name = name.replace(" ", "_").lower()
+		new_column_names.append(name)
 
+	return new_column_names
