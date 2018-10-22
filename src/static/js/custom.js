@@ -83,6 +83,15 @@ function toastrMessages(message, type) {
   }, 500);
 }
 
+function customLoader() {
+  $('#workboard-tab-content').waitMe({
+    effect: 'stretch',
+    text: 'Crunching Data....',
+    bg: 'rgba(255, 255, 255, 0.7)',
+    color: '#000'
+  });
+}
+
 function loadEmptyJSTree() {
   $('#jstree2').jstree({
     "core": {
@@ -155,13 +164,15 @@ function callForWorkboardData(analysisType, variables) {
     path += "data_table/";
   else path += "data_chart/";
 
+  customLoader();
+
   $.ajax({
     type: 'POST',
     url: path,
     data: {'variables': JSON.stringify(variables), 'type': analysisType},
     success: function (data) {
       $('#workboard-tab-content').html(data);
-      // console.log(data);
+      $('#workboard-tab-content').waitMe('hide');
     },
     error: function (data) {
       console.log(data);

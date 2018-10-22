@@ -25,3 +25,6 @@
 #dataChart svg{
     height: 500px;
 }
+#workboard-tab-content .panel-body{
+    min-height: 400px;
+}
