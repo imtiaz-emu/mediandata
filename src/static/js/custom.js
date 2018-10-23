@@ -32,7 +32,8 @@ $(document).ready(function () {
   $('#jstree2').on('changed.jstree', (e, data) => {
     var newSummaryList = $("#jstree2").jstree().get_selected(true);
     if (newSummaryList != "") {
-      generateWorkboardCallData();
+      // generateWorkboardCallData();
+      toggleFetchingDataButton();
     }
   });
 
@@ -55,15 +56,30 @@ $(document).ready(function () {
     }
   });
 
+  $("#fetch-data-btn").click(function () {
+    generateWorkboardCallData();
+  });
+
   $("#analysis-types li").click(function () {
     $('#analysis-types li').each(function () {
       $(this).removeClass('text-warning');
     });
     $(this).addClass('text-warning');
-    generateWorkboardCallData();
+    // generateWorkboardCallData();
+    toggleFetchingDataButton();
   });
 
 });
+
+function toggleFetchingDataButton() {
+  var summaryList = $("#jstree2").jstree().get_selected(true);
+  if(summaryList == ""){
+    $("#fetch-data-btn").attr('disabled', true);
+  }else{
+    $("#fetch-data-btn").attr('disabled', false);
+  }
+
+}
 
 function toastrMessages(message, type) {
   setTimeout(function () {
@@ -125,7 +141,8 @@ function createSingleNode(parent_node, new_node_id, new_node_text, new_node_data
     "icon": new_node_icon,
     "collection_name": collection_name
   }, position, false, false);
-  generateWorkboardCallData();
+  // generateWorkboardCallData();
+  toggleFetchingDataButton();
 }
 
 function deleteSingleNode(eachNode) {
@@ -144,7 +161,8 @@ function deleteSingleNode(eachNode) {
    treeNodes[propertyName].parent, "last");
    }
    */
-  generateWorkboardCallData();
+  // generateWorkboardCallData();
+  toggleFetchingDataButton();
 }
 
 function getSelectedAnalysisType() {
@@ -162,6 +180,8 @@ function callForWorkboardData(analysisType, variables) {
   var path = window.location.pathname;
   if (analysisType == 'table')
     path += "data_table/";
+  else if (analysisType == 'bubble')
+    path += "data_bubble/";
   else path += "data_chart/";
 
   customLoader();
