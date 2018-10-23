@@ -39,15 +39,15 @@
     nv.addGraph(function () {
       var height = 420;
       var chart = nv.models.multiBarChart()
-              .x(function (d) {
-                return d.label
-              })
-              .y(function (d) {
-                return d.value
-              })
-              .height(height)
-              .margin({left: 80,top: 20,bottom: 120,right: 20})
-      ;
+                      .x(function (d) {
+                        return d.label
+                      })
+                      .y(function (d) {
+                        return d.value
+                      })
+                      .height(height)
+                      .margin({left: 80, top: 20, bottom: 120, right: 20})
+              ;
       chart.xAxis.rotateLabels('-45');
 
       chart.yAxis.tickFormat(d3.format(',.3f'))
@@ -100,7 +100,7 @@
                       .y(function (d) {
                         return d.value
                       })
-                      .margin({left: 80,top: 20,bottom: 120,right: 20})
+                      .margin({left: 80, top: 20, bottom: 120, right: 20})
               ;
       chart.xAxis.rotateLabels('-45')
               .showMaxMin(false)
@@ -115,6 +115,57 @@
       d3.select('#dataChart svg')
               .datum(data)
               .transition().duration(500)
+              .call(chart);
+
+      nv.utils.windowResize(chart.update);
+
+      return chart;
+    });
+
+  {% elif data and analysis_type == 'bubble' %}
+    nv.addGraph(function () {
+      var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
+      var value_list = [];
+      var categories = [];
+      for (var i = 0; i < data.length; i++) {
+        data[i].values.forEach(function (item) {
+          value_list.push(item.index_col);
+          categories.push(item.x);
+        })
+      }
+      var chart = nv.models.scatterChart()
+              .x(function (d) {
+                return d.index_col
+              })
+              .y(function (d) {
+                return d.y
+              })
+              .pointSize(function (d) {
+                return d.size
+              })
+              .color(d3.scale.category10().range())
+              .margin({left: 80, top: 20, bottom: 120, right: 20});
+
+      chart.tooltip.contentGenerator(function (key) {
+        return '<h3>' + categories[key.point.index_col] + '</h3>' +
+                '<p>' + '{{ yaxis.upper }}' + ': ' + key.point.y + '</p>' +
+                '<p>' + '{{ zaxis.upper }}' + ': ' + key.point.size + '</p>';
+      });
+
+      chart.xAxis.rotateLabels('-45')
+              .showMaxMin(false)
+              .tickValues(value_list)
+              .tickFormat(function (d) {
+                return categories[d];
+              });
+
+      chart.yAxis
+              .tickFormat(d3.format(',.2f'));
+
+      chart.scatter.showLabels(true);
+
+      d3.select('#dataChart svg')
+              .datum(data)
               .call(chart);
 
       nv.utils.windowResize(chart.update);
