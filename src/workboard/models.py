@@ -16,3 +16,10 @@ class Workboard(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
+
+class SelectedVariables(models.Model):
+	workboard = models.ForeignKey(Workboard, on_delete=models.CASCADE)
+	column_name = models.CharField(max_length=255)
+	column_type = models.CharField(max_length=255)
+	table_name = models.CharField(max_length=255)
+	aggregation_value = models.CharField(max_length=255, blank=True, null=True)
