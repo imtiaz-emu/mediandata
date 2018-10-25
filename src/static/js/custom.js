@@ -75,8 +75,10 @@ function toggleFetchingDataButton() {
   var summaryList = $("#jstree2").jstree().get_selected(true);
   if(summaryList == ""){
     $("#fetch-data-btn").attr('disabled', true);
+    $("#save-workboard-btn").attr('disabled', true);
   }else{
     $("#fetch-data-btn").attr('disabled', false);
+    $("#save-workboard-btn").attr('disabled', false);
   }
 
 }
