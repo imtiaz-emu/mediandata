@@ -6,7 +6,7 @@ import json
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 import pandas as pd
-from .models import Workboard
+from .models import Workboard, SelectedVariables
 from analysis_types.models import AnalysisType
 from projects.models import Project
 from connected_databases.models import ConnectedDatabase
@@ -20,6 +20,30 @@ def create(request):
 		analysis_type_id=5
 	)
 	return redirect('workboard:show', id=workboard.pk)
+
+
+@csrf_exempt
+def update(request, id=None):
+	workboard = get_object_or_404(Workboard, id=id)
+	variables = json.loads(request.POST.get('variables', None))
+	analysisType = AnalysisType.objects.get(analytics=request.POST.get('type', None))
+	collection_name = list(variables.keys())[0]
+	try:
+		SelectedVariables.objects.filter(workboard=workboard).delete()
+		workboard.analysis_type = analysisType
+		workboard.save()
+		for variable in variables[collection_name]:
+			workboard.selectedvariables_set.create(
+				column_name=variable['name'],
+				column_type=variable['type'],
+				table_name=collection_name,
+				aggregation_value='sum',
+				variable_id=variable['id']
+			)
+			message = 'Workboard saved successfully!'
+		return HttpResponse(json.dumps(message), content_type='application/json')
+	except Exception as e:
+		return HttpResponse(json.dumps(e.args[0]), content_type='application/json')
 
 
 def show(request, id=None):
@@ -45,7 +69,7 @@ def data_table(request, id=None):
 	cnx = engine.raw_connection()
 	collection_name = list(variables.keys())[0]
 	column_names = [x['name'] for x in variables[collection_name]]
-	column_types = [x['type'] for x in variables[collection_name]]
+	# column_types = [x['type'] for x in variables[collection_name]]
 	query_string = 'Select ' + ','.join(column_names) + ' FROM \"' + collection_name + "\""
 
 	try:

@@ -60,6 +60,11 @@ $(document).ready(function () {
     generateWorkboardCallData();
   });
 
+  $("#save-workboard-btn").click(function () {
+    var variables = getSummaryListSelectedVariables();
+    updateWorkboard(variables);
+  });
+
   $("#analysis-types li").click(function () {
     $('#analysis-types li').each(function () {
       $(this).removeClass('text-warning');
@@ -71,12 +76,28 @@ $(document).ready(function () {
 
 });
 
+function getSummaryListSelectedVariables() {
+  var summaryList = $("#jstree2").jstree().get_selected(true);
+  var variables = {};
+
+  summaryList.forEach(function (node) {
+    var valueHash = {'name': node.text, 'type': node.data.objId.Var_Type, 'id': node.id};
+    if (variables[node.original.collection_name] == undefined) {
+      variables[node.original.collection_name] = [];
+      variables[node.original.collection_name].push(valueHash);
+    }
+    else variables[node.original.collection_name].push(valueHash);
+  });
+
+  return variables;
+}
+
 function toggleFetchingDataButton() {
   var summaryList = $("#jstree2").jstree().get_selected(true);
-  if(summaryList == ""){
+  if (summaryList == "") {
     $("#fetch-data-btn").attr('disabled', true);
     $("#save-workboard-btn").attr('disabled', true);
-  }else{
+  } else {
     $("#fetch-data-btn").attr('disabled', false);
     $("#save-workboard-btn").attr('disabled', false);
   }
@@ -255,21 +276,31 @@ function generateChartRestriction(analysisType, variables) {
 
 function generateWorkboardCallData() {
   var analysisType = getSelectedAnalysisType();
-  var summaryList = $("#jstree2").jstree().get_selected(true);
-  var variables = {};
-
-  summaryList.forEach(function (node) {
-    if (variables[node.original.collection_name] == undefined) {
-      variables[node.original.collection_name] = [];
-      variables[node.original.collection_name].push({'name': node.text, 'type': node.data.objId.Var_Type});
-    }
-    else variables[node.original.collection_name].push({'name': node.text, 'type': node.data.objId.Var_Type});
-  });
+  var variables = getSummaryListSelectedVariables();
 
   if (generateChartRestriction(analysisType, variables)) {
     callForWorkboardData(analysisType, variables);
   }
 
+}
+
+function updateWorkboard(variables) {
+  var path = window.location.pathname + "update/";
+  var analysisType = getSelectedAnalysisType();
+
+  if (generateChartRestriction(analysisType, variables)) {
+    $.ajax({
+      type: 'POST',
+      url: path,
+      data: {'variables': JSON.stringify(variables), 'type': analysisType},
+      success: function (data) {
+        toastrMessages(data, 'success');
+      },
+      error: function (data) {
+        toastrMessages(data, 'error');
+      }
+    });
+  }
 }
 
 function getProcessedBarChartData(data, inputType) {

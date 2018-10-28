@@ -23,3 +23,4 @@ class SelectedVariables(models.Model):
 	column_type = models.CharField(max_length=255)
 	table_name = models.CharField(max_length=255)
 	aggregation_value = models.CharField(max_length=255, blank=True, null=True)
+	variable_id = models.CharField(max_length=255, default=None)
