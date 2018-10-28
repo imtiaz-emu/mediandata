@@ -327,3 +327,8 @@ function getProcessedPieChartData(data, inputType) {
 
   return data;
 }
+
+function populateJSTreeAndChart(variables) {
+  // TODO: Variable List/Summary List population and query generation
+  console.log(variables);
+}

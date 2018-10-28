@@ -6,6 +6,7 @@ import json
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 import pandas as pd
+from django.core import serializers
 from .models import Workboard, SelectedVariables
 from analysis_types.models import AnalysisType
 from projects.models import Project
@@ -50,12 +51,14 @@ def show(request, id=None):
 	workboard = get_object_or_404(Workboard, id=id)
 	workboards = Workboard.objects.filter(project=workboard.project)
 	analysis_types = AnalysisType.objects.all()
+	selectedVariables = SelectedVariables.objects.filter(workboard=workboard)
 
 	context = {
 		'workboard': workboard,
 		'workboards': workboards,
 		'analysis_types': analysis_types,
-		'js_tree': get_js_tree(workboard.project)
+		'js_tree': get_js_tree(workboard.project),
+		'variables': serializers.serialize('json', selectedVariables)
 	}
 	return render(request, "workboards/show.html", context)
 

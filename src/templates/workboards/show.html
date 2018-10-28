@@ -89,6 +89,10 @@
 
       loadJSTreeWithData("{{ js_tree|escapejs }}");
 
+      {% if variables %}
+        populateJSTreeAndChart("{{ variables|escapejs }}");
+      {% endif %}
+
     });
   </script>
 {% endblock script %}
