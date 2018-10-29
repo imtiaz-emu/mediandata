@@ -329,6 +329,16 @@ function getProcessedPieChartData(data, inputType) {
 }
 
 function populateJSTreeAndChart(variables) {
-  // TODO: Variable List/Summary List population and query generation
-  console.log(variables);
+  variables = JSON.parse(variables);
+
+  if(variables.length > 0){
+    $('#jstree1').on('loaded.jstree', (e, data) => {
+      for (var i = 0; i < variables.length; i++) {
+        var nodeId = variables[i].fields.variable_id;
+        $('#jstree1').jstree(true).select_node(nodeId);
+      }
+      $("#fetch-data-btn").click();
+    });
+  }
+
 }
