@@ -76,7 +76,7 @@
       <div class="col-md-4">
         {% if db_connection %}
           <div>
-            {% include 'projects/analysis_boards.html' %}
+            {% include 'projects/analysis_boards.html' with wb=workboards db=dashboards %}
           </div>
         {% else %}
           <div id="data-connection-info">

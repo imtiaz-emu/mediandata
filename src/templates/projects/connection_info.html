@@ -24,7 +24,7 @@
   $(document).ready(function () {
 
     {% if errors != '' %}
-      toastrMessages('{{ errors|safe }}', 'error');
+      toastrMessages(JSON.parse("{{ errors|escapejs }}"), 'error');
       $('#save-connection-btn').attr('disabled', true);
     {% endif %}
 

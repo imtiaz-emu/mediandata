@@ -1,0 +1,50 @@
+- model: analysis_types.analysistype
+  pk: 1
+  fields:
+    name: analysis-bar-chart
+    title: Bar chart
+    button_class: btn
+    icon_class: fa fa-chart-bar
+    selected: FALSE
+    customClass: barChart
+    analytics: bar
+- model: analysis_types.analysistype
+  pk: 2
+  fields:
+    name: analysis-pie-chart
+    title: Pie chart
+    button_class: btn
+    icon_class: fa fa-chart-pie
+    selected: FALSE
+    customClass: pieChart
+    analytics: pie
+- model: analysis_types.analysistype
+  pk: 3
+  fields:
+    name: analysis-line-chart
+    title: Line chart
+    button_class: btn
+    icon_class: fa fa-chart-line
+    selected: FALSE
+    customClass: lineChart
+    analytics: line
+- model: analysis_types.analysistype
+  pk: 4
+  fields:
+    name: analysis-bubble-chart
+    title: Bubble chart
+    button_class: btn
+    icon_class: fa fa-bullseye
+    selected: FALSE
+    customClass: bubbleChart
+    analytics: bubble
+- model: analysis_types.analysistype
+  pk: 5
+  fields:
+    name: analysis-data-table
+    title: Table
+    button_class: btn
+    icon_class: fa fa-table
+    selected: TRUE
+    customClass: dataTableChart
+    analytics: table

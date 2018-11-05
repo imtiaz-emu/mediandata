@@ -1,0 +1,16 @@
+<ul class="nav nav-tabs">
+  {% for workboard in wb_list %}
+    <li class="{% if workboard == wb %}active {% endif %}">
+      <a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
+    </li>
+  {% endfor %}
+
+  <form role="form" method="post" action="{% url "workboard:create" %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{ wb.project_id }}" name="project_id">
+    <li class="add-workboard-button">
+      <a href="javascript:$('form').submit();">
+        <span class="badge"><i class="fa fa-plus"></i></span></a>
+    </li>
+  </form>
+</ul>

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 import json
 import urllib
+import re
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 from django.template.loader import render_to_string
@@ -11,6 +12,8 @@ from .forms import ConnectedDatabaseForm, ConnectedDatabaseCSVForm
 from django.contrib import messages
 from .models import ConnectedDatabase
 from projects.models import Project
+from workboard.models import Workboard
+from dashboard.models import Dashboard
 
 
 # Create your views here.
@@ -48,6 +51,7 @@ def connect(request, project_id=None):
 		db_form = ConnectedDatabaseForm(request.POST)
 		if db_form.is_valid():
 			db_form.save(project, database_string_creation(request.POST))
+			default_work_dash_board_create(project)
 			messages.success(request, 'Database Connection was successfully Saved!')
 			return redirect('projects:show', id=project.id)
 		else:
@@ -67,24 +71,27 @@ def create_csv(request, project_id=None):
 			if request.FILES['file_location'].name.endswith('.csv'):
 				data = pd.read_csv(request.FILES['file_location'])
 				tempName = project.name + "_" + project_id
+				data.columns = renameUploadFileColumns(data.keys())
 				customTablenames.append(tempName.replace(" ", "_"))
 				data.to_sql(customTablenames[-1], engine)
 			else:
 				data_sheets = pd.ExcelFile(request.FILES['file_location'])
-				for sheet in data_sheets.sheet_names:
-					data = pd.read_excel(data_sheets, data_sheets.sheet_names[0])
+				for index, sheet in enumerate(data_sheets.sheet_names):
+					data = pd.read_excel(data_sheets, data_sheets.sheet_names[index])
 					tempName = project.name + "_" + project_id + "_" + sheet
+					data.columns = renameUploadFileColumns(data.keys())
 					customTablenames.append(tempName.replace(" ", "_"))
 					data.to_sql(customTablenames[-1], engine)
 
 			csv_form.save(project, con_string, ",".join(customTablenames))
-
+			default_work_dash_board_create(project)
 			messages.success(request, 'Database Connection was successfully Saved!')
 			return redirect('projects:show', id=project.id)
 		except Exception as e:
 			return HttpResponse(json.dumps(str(e)), content_type='application/json')
 
 	return HttpResponse(json.dumps(csv_form.errors.values()), content_type='application/json')
+
 
 def database_string_creation(post_data):
 	if (post_data['database_type'] == 'mssql'):
@@ -102,3 +109,22 @@ def database_string_creation(post_data):
 			post_data.get("port")) + "/" + str(post_data.get("database_name"))
 
 	return database_string
+
+
+def default_work_dash_board_create(project):
+	project.dashboard_set.create(
+		name='New Dashboard'
+	)
+	project.workboard_set.create(
+		name='New Workboard',
+		analysis_type_id=5
+	)
+
+def renameUploadFileColumns(column_names):
+	new_column_names = []
+	for name in column_names:
+		name = re.sub(r"[-()\"#/@;:<>{}`+=~|.!?,]", "", name)
+		name = name.replace(" ", "_").lower()
+		new_column_names.append(name)
+
+	return new_column_names
