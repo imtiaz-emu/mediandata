@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .decorators import anonymous_required
 
-# Create your views here.
+
+@anonymous_required
 def home(request):
 	return render(request, "static_pages/home.html")

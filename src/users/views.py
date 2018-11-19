@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from static_pages.decorators import anonymous_required
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, CustomUserLoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 
+@anonymous_required
 def signin(request):
 	errors = None
 	f = CustomUserLoginForm()
@@ -30,6 +31,7 @@ def signin(request):
 	return render(request, "users/login.html", {'errors': errors, 'form': f})
 
 
+@anonymous_required
 def register(request):
 	if request.method == 'POST':
 		f = CustomUserCreationForm(request.POST)
