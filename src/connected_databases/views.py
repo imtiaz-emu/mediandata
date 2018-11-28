@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import json
 import urllib
 import re
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine import reflection
 from django.template.loader import render_to_string
@@ -64,7 +65,7 @@ def create_csv(request, project_id=None):
 	csv_form = ConnectedDatabaseCSVForm(request.POST, request.FILES or None)
 	if csv_form.is_valid():
 		try:
-			con_string = 'postgresql://postgres:admin@localhost:5432/mediandata_uploads'
+			con_string = 'postgresql://postgres:' + os.environ.get('POSTGRES_PASSWORD') + '@localhost:5432/mediandata_uploads'
 			engine = create_engine(con_string)
 			customTablenames = []
 
