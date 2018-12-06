@@ -1,0 +1,82 @@
+{% load staticfiles %}
+{% load common %}
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header">
+        <div class="dropdown profile-element">
+          {% if request.user.is_authenticated %}
+            <span>
+            {% if request.user.profile.photo %}
+              <img alt="image" class="img-circle"
+                   src="{{ request.user.profile.photo.url }}"/>
+            {% else %}
+              <img alt="image" class="img-circle"
+                   src="{% static 'img/default_user.jpg' %}"/>
+            {% endif %}
+            </span>
+            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+            <span class="clear"> <span class="block m-t-xs"> <strong
+                class="font-bold">{{ request.user.profile.get_full_name }}</strong>
+             </span> <span class="text-muted text-xs block">{{ request.user.profile.job_title }} <b
+                class="caret"></b></span> </span>
+            </a>
+          {% else %}
+            <span>
+              <img alt="image" class="img-circle"
+                   src="{% static 'img/default_user.jpg' %}"/>
+            </span>
+            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+            <span class="clear"> <span class="block m-t-xs"> <strong
+                class="font-bold">John Doe</strong>
+             </span> <span class="text-muted text-xs block">Art Director <b
+                class="caret"></b></span> </span>
+            </a>
+          {% endif %}
+          <ul class="dropdown-menu animated fadeInRight m-t-xs">
+            <li><a href="{% url "profiles:show" id=request.user.profile.id %}">Profile</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            <li><a href="mailbox.html">Mailbox</a></li>
+            <li class="divider"></li>
+            <li><a href="{% url 'users:signout' %}">Logout</a></li>
+          </ul>
+        </div>
+        <div class="logo-element">
+          MD
+        </div>
+      </li>
+
+      <li class="active">
+        <ul class="nav nav-second-level collapse in" style="">
+          <li class="">
+            <a href="javascript:void(0)">Project: {{ board_lists|get_dict_item:'name' }}<span
+                class="fa arrow"></span></a>
+            <ul class="nav nav-third-level collapse" style="height: 0px;">
+              <li class="border-bottom">
+                <a href="javascript:void(0)">Workboards</a>
+              </li>
+              {% for workboard in board_lists|get_dict_item:'workboards' %}
+                <li>
+                  <a href="{% url 'workboard:show' id=workboard.pk %}">{{ workboard.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+            <ul class="nav nav-third-level collapse" style="height: 0px;">
+              <li class="border-bottom">
+                <a href="javascript:void(0)">Dashboards</a>
+              </li>
+              {% for dashboard in board_lists|get_dict_item:'dashboards' %}
+                <li>
+                  <a href="{% url 'dashboard:show' id=dashboard.pk %}">{{ dashboard.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
