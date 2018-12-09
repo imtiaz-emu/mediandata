@@ -1,0 +1,16 @@
+<ul class="nav nav-tabs">
+  {% for dashboard in db_list %}
+    <li class="{% if dashboard == db %}active {% endif %}">
+      <a href="{% url "dashboard:show" id=dashboard.id %}">{{ dashboard.name }}</a>
+    </li>
+  {% endfor %}
+
+  <form role="form" method="post" action="{% url "dashboard:create" %}">
+    {% csrf_token %}
+    <input type="hidden" value="{{ db.project_id }}" name="project_id">
+    <li class="add-dashboard-button">
+      <a href="javascript:$('form').submit();">
+        <span class="badge"><i class="fa fa-plus"></i></span></a>
+    </li>
+  </form>
+</ul>

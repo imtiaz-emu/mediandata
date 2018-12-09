@@ -2,4 +2,35 @@
 {% load staticfiles %}
 
 {% block content %}
+  <div class="container-fluid m-t-lg">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="tabs-container" id="dashboard-tabs">
+          {% include 'dashboards/dashboard_tabs.html' with db_list=dashboards db=dashboard %}
+          <div class="tab-content" id="dashboard-tab-content">
+            {% include 'dashboards/dashboard_chart.html' with dashboard=dashboard %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Added Workboards</h5>
+          </div>
+          <div class="ibox-content" id="added-workboards">
+            <ul class="todo-list m-t small-list">
+              <li>
+                <a href="dashboard_2.html#" class="check-link"><i class="far fa-square"></i> </a>
+                <span class="m-l-xs">Buy a milk</span>
+              </li>
+              <li>
+                <a href="dashboard_2.html#" class="check-link"><i class="far fa-square"></i> </a>
+                <span class="m-l-xs">Go to shop and find some products.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
