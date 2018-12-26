@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Dashboard
 from workboard.models import Workboard
+from projects.models import Project
 from django.shortcuts import render, redirect, get_object_or_404
 
 
@@ -18,7 +19,11 @@ def show(request, id=None):
 
 
 def create(request):
-	pass
+	project = Project.objects.get(id=request.POST.get('project_id'))
+	dashboard = project.dashboard_set.create(
+		name='New Dashboard'
+	)
+	return redirect('dashboard:show', id=dashboard.pk)
 
 
 def update(request, id=None):
