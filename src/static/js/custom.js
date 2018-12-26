@@ -74,6 +74,13 @@ $(document).ready(function () {
         toggleFetchingDataButton();
     });
 
+    $('.check-link').click(function () {
+        var button = $(this).find('i');
+        var label = $(this).next('span');
+        button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+        return false;
+    });
+
 });
 
 function getSummaryListSelectedVariables() {
