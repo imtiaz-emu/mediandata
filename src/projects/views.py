@@ -110,14 +110,14 @@ def update_board(request, id=None):
 		json_data = {
 			'workboard': workboard,
 			'board_type': 'workboard',
-			'url': '/workboards/' + str(workboard.id) + '/update_name'
+			'url': '/workboards/' + str(workboard.id) + '/update_name/'
 		}
 	else:
 		dashboard = get_object_or_404(Dashboard, id=request.POST.get('board_id', None))
 		json_data = {
 			'dashboard': dashboard,
 			'board_type': 'dashboard',
-			'url': '/dashboards/' + str(dashboard.id) + '/update_name'
+			'url': '/dashboards/' + str(dashboard.id) + '/update_name/'
 		}
 
 	template = render_to_string('projects/edit_board_name.html', json_data)

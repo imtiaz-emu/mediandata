@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from .models import Dashboard
 from workboard.models import Workboard
 from projects.models import Project
@@ -26,8 +27,13 @@ def create(request):
 	return redirect('dashboard:show', id=dashboard.pk)
 
 
+@csrf_exempt
 def update_name(request, id=None):
-	pass
+	dashboard = get_object_or_404(Dashboard, id=id)
+	dashboard.name = request.POST.get('board_name', None)
+	dashboard.save()
+
+	return redirect('projects:show', id=dashboard.project.pk)
 
 
 def update(request, id=None):

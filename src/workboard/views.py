@@ -65,7 +65,11 @@ def show(request, id=None):
 
 @csrf_exempt
 def update_name(request, id=None):
-	pass
+	workboard = get_object_or_404(Workboard, id=id)
+	workboard.name = request.POST.get('board_name', None)
+	workboard.save()
+
+	return redirect('projects:show', id=workboard.project.pk)
 
 
 @csrf_exempt

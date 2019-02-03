@@ -17,9 +17,8 @@
             </h3>
 
             <form role="form" class="form-inline" method="post" action="{{ url }}">
-              {% csrf_token %}
               <div class="form-group">
-                <input type="text"
+                <input type="text" name="board_name"
                        value="{% if board_type == 'workboard' %} {{ workboard.name }} {% else %} {{ dashboard.name }} {% endif %}"
                        id="exampleInputEmail2" class="form-control">
               </div>
