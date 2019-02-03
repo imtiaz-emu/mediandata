@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import show, data_chart, data_table, create, data_bubble, update
+from .views import show, data_chart, data_table, create, data_bubble, update, update_name
 
 urlpatterns = [
 	url(r'^(?P<id>\d+)/$', show, name='show'),
@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^(?P<id>\d+)/data_chart/$', data_chart, name='chart'),
 	url(r'^(?P<id>\d+)/data_bubble/$', data_bubble, name='bubble'),
 	url(r'^(?P<id>\d+)/data_table/$', data_table, name='table'),
+	url(r'^(?P<id>\d+)/update_name/$', update_name, name='update_name'),
 ]

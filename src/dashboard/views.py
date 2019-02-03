@@ -26,6 +26,10 @@ def create(request):
 	return redirect('dashboard:show', id=dashboard.pk)
 
 
+def update_name(request, id=None):
+	pass
+
+
 def update(request, id=None):
 	pass
 
