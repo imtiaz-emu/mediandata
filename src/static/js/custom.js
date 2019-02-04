@@ -77,7 +77,13 @@ $(document).ready(function () {
     $('.check-link').click(function () {
         var button = $(this).find('i');
         var label = $(this).next('span');
-        button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+        button.toggleClass('fa-check-square').toggleClass('fa-square');
+        button.toggleClass('fas').toggleClass('far');
+        if($('.small-list').find(".fas").length > 0){
+            $("#save-dashboard-btn").attr('disabled', false);
+        }else{
+            $("#save-dashboard-btn").attr('disabled', true);
+        }
         return false;
     });
 
