@@ -21,7 +21,9 @@
             <ul class="todo-list m-t small-list">
               {% for workboard in workboards %}
                 <li>
-                  <a href="dashboard_2.html#" class="check-link"><i class="far fa-square"></i> </a>
+                  <a href="dashboard_2.html#" class="check-link" data-type="{{ workboard.analysis_type.analytics }}">
+                    <i class="far fa-square"></i>
+                  </a>
                   <span class="m-l-xs">{{ workboard.name }}</span>
                 </li>
               {% endfor %}

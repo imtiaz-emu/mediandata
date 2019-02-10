@@ -10,16 +10,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 def show(request, id=None):
     dashboard = get_object_or_404(Dashboard, id=id)
+    variables = {}
+    valid_workboards = []
     all_workboards = Workboard.objects.filter(project=dashboard.project)
-    valid_workboards = list(SelectedVariables.objects.filter(
-        workboard__in=list(all_workboards.values_list('pk', flat=True))).values('workboard').annotate(
-        dcount=Count('workboard')))
-    workboards = all_workboards.filter(pk__in=[d['workboard'] for d in valid_workboards])
+
+    for workboard in all_workboards:
+        selectedVariables = SelectedVariables.objects.filter(workboard=workboard)
+        variables[workboard.id] = {}
+        if len(selectedVariables) > 0:
+            variables[workboard.id][selectedVariables[0].table_name] = []
+            for variable in selectedVariables:
+                variables[workboard.id][variable.table_name].append({
+                    'name': variable.column_name,
+                    'type': variable.column_type,
+                    'id': variable.variable_id
+                })
+            valid_workboards.append(workboard.id)
+
+    workboards = all_workboards.filter(pk__in=valid_workboards).select_related('analysis_type')
     dashboards = Dashboard.objects.filter(project=dashboard.project)
     context = {
         'dashboard': dashboard,
         'dashboards': dashboards,
         'workboards': workboards,
+        'variables': variables
     }
     return render(request, "dashboards/show.html", context)
 
