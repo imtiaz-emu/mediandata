@@ -1,5 +1,6 @@
 {% extends 'layouts/dashboard.html' %}
 {% load staticfiles %}
+{% load common %}
 
 {% block content %}
   <div class="container-fluid m-t-lg">
@@ -21,7 +22,10 @@
             <ul class="todo-list m-t small-list">
               {% for workboard in workboards %}
                 <li>
-                  <a href="dashboard_2.html#" class="check-link" data-type="{{ workboard.analysis_type.analytics }}">
+                  <a href="dashboard_2.html#" class="check-link"
+                     data-workboard-id="{{ workboard.id }}"
+                     data-type="{{ workboard.analysis_type.analytics }}"
+                     data-variables="{{ variables|get_dict_item:workboard.id }}">
                     <i class="far fa-square"></i>
                   </a>
                   <span class="m-l-xs">{{ workboard.name }}</span>

@@ -1,4 +1,7 @@
 <div id="dbtab-{{ dashboard.pk }}" class="tab-pane active">
   <div class="panel-body">
+    {% for workboard in workboards %}
+      <div id="dashoard-workboard-{{ workboard.pk }}"></div>
+    {% endfor %}
   </div>
 </div>

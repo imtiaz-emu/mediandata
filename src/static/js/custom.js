@@ -135,8 +135,8 @@ function toastrMessages(message, type) {
     }, 500);
 }
 
-function customLoader() {
-    $('#workboard-tab-content').waitMe({
+function customLoader(selector) {
+    $(selector).waitMe({
         effect: 'stretch',
         text: 'Crunching Data....',
         bg: 'rgba(255, 255, 255, 0.7)',
@@ -220,7 +220,7 @@ function callForWorkboardData(analysisType, variables) {
         path += "data_bubble/";
     else path += "data_chart/";
 
-    customLoader();
+    customLoader('#workboard-tab-content');
 
     $.ajax({
         type: 'POST',

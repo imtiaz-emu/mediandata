@@ -1,0 +1,45 @@
+{% if error %}
+  <div class="well">
+    <h3 class="text-danger">Error:</h3>
+    <h4>{{ error }}</h4>
+  </div>
+{% elif data and analysis_type == 'table' %}
+  <table class="table" id="dataTable">
+    <thead>
+    <tr>
+      {% for column in columns %}
+        <th>{{ column }}</th>
+      {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in data %}
+      <tr>
+        {% for key, value in row.items %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% elif data and analysis_type != 'table' %}
+  <div id="dataChart">
+    <svg></svg>
+  </div>
+{% endif %}
+
+<script>
+  {% if data and analysis_type == 'table' %}
+    $('#dataTable').DataTable();
+  {% elif data and analysis_type == 'bar' %}
+    drawABarChart("{{ data|safe|escapejs }}", '#dataChart svg');
+  {% elif data and analysis_type == 'pie' %}
+    drawAPieChart("{{ data|safe|escapejs }}", "#dataChart svg");
+  {% elif data and analysis_type == 'line' %}
+    var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
+    drawALineChart(data, "#dataChart svg");
+  {% elif data and analysis_type == 'bubble' %}
+    var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
+    drawABubbleChart(data, "#dataChart svg");
+  {% endif %}
+</script>
