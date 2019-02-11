@@ -22,10 +22,10 @@
             <ul class="todo-list m-t small-list">
               {% for workboard in workboards %}
                 <li>
-                  <a href="dashboard_2.html#" class="check-link"
+                  <a href="javascript:void(0)" class="check-link"
                      data-workboard-id="{{ workboard.id }}"
                      data-type="{{ workboard.analysis_type.analytics }}"
-                     data-variables="{{ variables|get_dict_item:workboard.id }}">
+                     data-variables="{{ variables|get_json_dict_item:workboard.id }}">
                     <i class="far fa-square"></i>
                   </a>
                   <span class="m-l-xs">{{ workboard.name }}</span>

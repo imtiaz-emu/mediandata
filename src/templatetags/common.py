@@ -2,6 +2,7 @@ from django import template
 from projects.models import Project
 from django.contrib.auth.models import User
 from dashboard.models import Dashboard
+import json
 
 register = template.Library()
 
@@ -50,6 +51,11 @@ def user_projects(user_id):
 @register.filter
 def get_dict_item(dictionary, key):
     return dictionary.get(key)
+
+
+@register.filter
+def get_json_dict_item(dictionary, key):
+    return json.dumps(dictionary.get(key))
 
 
 @register.assignment_tag

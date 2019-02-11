@@ -79,6 +79,11 @@ $(document).ready(function () {
         var label = $(this).next('span');
         button.toggleClass('fa-check-square').toggleClass('fa-square');
         button.toggleClass('fas').toggleClass('far');
+        if(button.hasClass('fas')){
+            populateDashboardWithWorkboardData($(this).data('type'), $(this).data('variables'), $(this).data('workboard-id'));
+        }else {
+            $('#dashoard-workboard-' + $(this).data('workboard-id')).html('');
+        }
         if($('.small-list').find(".fas").length > 0){
             $("#save-dashboard-btn").attr('disabled', false);
         }else{
@@ -295,6 +300,31 @@ function generateWorkboardCallData() {
         callForWorkboardData(analysisType, variables);
     }
 
+}
+
+function populateDashboardWithWorkboardData(analysisType, variables, workboardID) {
+    var path = window.location.pathname;
+    if (analysisType == 'table')
+        path += "data_table/";
+    else if (analysisType == 'bubble')
+        path += "data_bubble/";
+    else path += "data_chart/";
+
+    // console.log(variables);
+    customLoader('#dashboard-tab-content');
+
+    $.ajax({
+        type: 'POST',
+        url: path,
+        data: {'variables': JSON.stringify(variables), 'type': analysisType},
+        success: function (data) {
+            $('#dashoard-workboard-' + workboardID).html(data);
+            $('#dashboard-tab-content').waitMe('hide');
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
 }
 
 function updateWorkboard(variables) {

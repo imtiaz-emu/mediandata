@@ -24,9 +24,9 @@ def show(request, id=None):
             variables[workboard.id][selectedVariables[0].table_name] = []
             for variable in selectedVariables:
                 variables[workboard.id][variable.table_name].append({
-                    'name': variable.column_name,
-                    'type': variable.column_type,
-                    'id': variable.variable_id
+                    "name": variable.column_name,
+                    "type": variable.column_type,
+                    "id": variable.variable_id
                 })
             valid_workboards.append(workboard.id)
 
@@ -36,7 +36,7 @@ def show(request, id=None):
         'dashboard': dashboard,
         'dashboards': dashboards,
         'workboards': workboards,
-        'variables': variables
+        "variables": variables
     }
     return render(request, "dashboards/show.html", context)
 
