@@ -68,9 +68,10 @@ def destroy(request, id=None):
 
 @csrf_exempt
 def data_table(request, id=None):
-	workboard = get_object_or_404(Workboard, id=id)
-	dbCon = ConnectedDatabase.objects.get(project=workboard.project)
+	dashboard = get_object_or_404(Dashboard, id=id)
+	dbCon = ConnectedDatabase.objects.get(project=dashboard.project)
 	variables = json.loads(request.POST.get('variables', None))
+	workboard = get_object_or_404(Workboard, id=request.POST.get('workboard', None))
 	engine = create_engine(dbCon.connection_string, echo=True)
 	cnx = engine.raw_connection()
 	collection_name = list(variables.keys())[0]
@@ -86,6 +87,7 @@ def data_table(request, id=None):
 			'data': resultData,
 			'analysis_type': 'table',
 			'columns': column_names,
+			'dashboard': dashboard,
 			'workboard': workboard
 		}
 
@@ -93,6 +95,7 @@ def data_table(request, id=None):
 		json_data = {
 			'analysis_type': 'table',
 			'error': e.args[0],
+			'dashboard': dashboard,
 			'workboard': workboard
 		}
 
@@ -104,6 +107,7 @@ def data_table(request, id=None):
 def data_chart(request, id=None):
 	dashboard = get_object_or_404(Dashboard, id=id)
 	dbCon = ConnectedDatabase.objects.get(project=dashboard.project)
+	workboard = get_object_or_404(Workboard, id=request.POST.get('workboard', None))
 	variables = json.loads(request.POST.get('variables', None))
 	engine = create_engine(dbCon.connection_string, echo=True)
 	cnx = engine.raw_connection()
@@ -150,24 +154,27 @@ def data_chart(request, id=None):
 			'data': json.dumps(finalResult),
 			'analysis_type': request.POST.get('type', None),
 			'columns': column_names,
-			'workboard': dashboard
+			'dashboard': dashboard,
+			'workboard': workboard
 		}
 
 	except Exception as e:
 		json_data = {
 			'analysis_type': request.POST.get('type', None),
 			'error': e.args[0],
-			'workboard': dashboard
+			'dashboard': dashboard,
+			'workboard': workboard
 		}
 
-	template = render_to_string('workboards/workboard_chart.html', json_data)
+	template = render_to_string('dashboards/dashboard_workboard.html', json_data)
 	return HttpResponse(json.dumps(template), content_type='application/json')
 
 
 @csrf_exempt
 def data_bubble(request, id=None):
-	workboard = get_object_or_404(Workboard, id=id)
-	dbCon = ConnectedDatabase.objects.get(project=workboard.project)
+	dashboard = get_object_or_404(Dashboard, id=id)
+	dbCon = ConnectedDatabase.objects.get(project=dashboard.project)
+	workboard = get_object_or_404(Workboard, id=request.POST.get('workboard', None))
 	variables = json.loads(request.POST.get('variables', None))
 	engine = create_engine(dbCon.connection_string, echo=True)
 	cnx = engine.raw_connection()
@@ -214,6 +221,7 @@ def data_bubble(request, id=None):
 			'analysis_type': request.POST.get('type', None),
 			'columns': column_names,
 			'workboard': workboard,
+			'dashboard': dashboard,
 			'yaxis': yaxis,
 			'zaxis': zaxis
 		}
@@ -222,8 +230,9 @@ def data_bubble(request, id=None):
 		json_data = {
 			'analysis_type': request.POST.get('type', None),
 			'error': e.args[0],
+			'dashboard': dashboard,
 			'workboard': workboard
 		}
 
-	template = render_to_string('workboards/workboard_chart.html', json_data)
+	template = render_to_string('dashboards/dashboard_workboard.html', json_data)
 	return HttpResponse(json.dumps(template), content_type='application/json')

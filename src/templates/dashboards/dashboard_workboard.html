@@ -4,7 +4,7 @@
     <h4>{{ error }}</h4>
   </div>
 {% elif data and analysis_type == 'table' %}
-  <table class="table" id="dataTable">
+  <table class="table dataTable" id="">
     <thead>
     <tr>
       {% for column in columns %}
@@ -23,23 +23,23 @@
     </tbody>
   </table>
 {% elif data and analysis_type != 'table' %}
-  <div id="dataChart">
+  <div class="dataChart">
     <svg></svg>
   </div>
 {% endif %}
 
 <script>
   {% if data and analysis_type == 'table' %}
-    $('#dataTable').DataTable();
+    $('#dashboard-workboard-{{ workboard.id }} .dataTable').DataTable();
   {% elif data and analysis_type == 'bar' %}
-    drawABarChart("{{ data|safe|escapejs }}", '#dataChart svg');
+    drawABarChart("{{ data|safe|escapejs }}", '#dashboard-workboard-{{ workboard.id }} .dataChart svg');
   {% elif data and analysis_type == 'pie' %}
-    drawAPieChart("{{ data|safe|escapejs }}", "#dataChart svg");
+    drawAPieChart("{{ data|safe|escapejs }}", "#dashboard-workboard-{{ workboard.id }} .dataChart svg");
   {% elif data and analysis_type == 'line' %}
     var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
-    drawALineChart(data, "#dataChart svg");
+    drawALineChart(data, "#dashboard-workboard-{{ workboard.id }} .dataChart svg");
   {% elif data and analysis_type == 'bubble' %}
     var data = getProcessedBarChartData("{{ data|safe|escapejs }}", 'sum');
-    drawABubbleChart(data, "#dataChart svg");
+    drawABubbleChart(data, "#dashboard-workboard-{{ workboard.id }} .dataChart svg");
   {% endif %}
 </script>

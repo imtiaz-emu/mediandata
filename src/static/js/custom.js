@@ -316,9 +316,9 @@ function populateDashboardWithWorkboardData(analysisType, variables, workboardID
     $.ajax({
         type: 'POST',
         url: path,
-        data: {'variables': JSON.stringify(variables), 'type': analysisType},
+        data: {'variables': JSON.stringify(variables), 'type': analysisType, 'workboard': workboardID},
         success: function (data) {
-            $('#dashoard-workboard-' + workboardID).html(data);
+            $('#dashboard-workboard-' + workboardID).html(data);
             $('#dashboard-tab-content').waitMe('hide');
         },
         error: function (data) {
