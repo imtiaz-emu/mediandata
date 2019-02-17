@@ -65,6 +65,16 @@ $(document).ready(function () {
         updateWorkboard(variables);
     });
 
+    $("#save-dashboard-btn").click(function () {
+        var workboard_ids = [];
+        $(".small-list .check-link").each(function () {
+            if ($(this).find(".fas").length > 0) {
+                workboard_ids.push($(this).data("workboard-id"));
+            }
+        });
+        updateDashboard(workboard_ids);
+    });
+
     $("#analysis-types li").click(function () {
         $('#analysis-types li').each(function () {
             $(this).removeClass('text-warning');
@@ -79,14 +89,14 @@ $(document).ready(function () {
         var label = $(this).next('span');
         button.toggleClass('fa-check-square').toggleClass('fa-square');
         button.toggleClass('fas').toggleClass('far');
-        if(button.hasClass('fas')){
+        if (button.hasClass('fas')) {
             populateDashboardWithWorkboardData($(this).data('type'), $(this).data('variables'), $(this).data('workboard-id'));
-        }else {
-            $('#dashoard-workboard-' + $(this).data('workboard-id')).html('');
+        } else {
+            $('#dashboard-workboard-' + $(this).data('workboard-id')).html('');
         }
-        if($('.small-list').find(".fas").length > 0){
+        if ($('.small-list').find(".fas").length > 0) {
             $("#save-dashboard-btn").attr('disabled', false);
-        }else{
+        } else {
             $("#save-dashboard-btn").attr('disabled', true);
         }
         return false;
@@ -344,6 +354,10 @@ function updateWorkboard(variables) {
             }
         });
     }
+}
+
+function updateDashboard(workboard_ids) {
+    console.log(workboard_ids);
 }
 
 function getProcessedBarChartData(data, inputType) {
