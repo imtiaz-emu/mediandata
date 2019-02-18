@@ -1,5 +1,6 @@
 from django.db import models
 from projects.models import Project
+from workboard.models import Workboard
 
 
 class Dashboard(models.Model):
@@ -10,3 +11,4 @@ class Dashboard(models.Model):
 	locked = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+	workboards = models.ManyToManyField(Workboard)
