@@ -357,7 +357,22 @@ function updateWorkboard(variables) {
 }
 
 function updateDashboard(workboard_ids) {
-    console.log(workboard_ids);
+    // console.log(workboard_ids);
+    var path = window.location.pathname + "update/";
+
+    if (workboard_ids.length > 0) {
+        $.ajax({
+            type: 'POST',
+            url: path,
+            data: {'workboards': JSON.stringify(workboard_ids)},
+            success: function (data) {
+                toastrMessages(data, 'success');
+            },
+            error: function (data) {
+                toastrMessages(data, 'error');
+            }
+        });
+    }
 }
 
 function getProcessedBarChartData(data, inputType) {
