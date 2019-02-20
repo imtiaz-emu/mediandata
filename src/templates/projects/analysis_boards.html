@@ -9,7 +9,10 @@
         <div id="dashboard_{{ dashboard.id }}">
           <li>
             <a href="{% url "dashboard:show" id=dashboard.id %}">{{ dashboard.name }}</a>
-            <span class="pull-right"><i class="fa fa-edit" onclick="editBoardName('dashboard', {{ dashboard.id }})"></i></span>
+            <span class="pull-right">
+              <i class="fa fa-edit" onclick="editBoardName('dashboard', {{ dashboard.id }})"></i>
+              <i class="fa fa-trash" onclick="deleteBoard('dashboard', {{ dashboard.id }})"></i>
+            </span>
           </li>
         </div>
       {% endfor %}
@@ -21,7 +24,10 @@
         <div id="workboard_{{ workboard.id }}">
           <li>
             <a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
-            <span class="pull-right"><i class="fa fa-edit" onclick="editBoardName('workboard', {{ workboard.id }})"></i></span>
+            <span class="pull-right">
+              <i class="fa fa-edit" onclick="editBoardName('workboard', {{ workboard.id }})"></i>
+              <i class="fa fa-trash" onclick="deleteBoard('workboard', {{ workboard.id }})"></i>
+            </span>
           </li>
         </div>
       {% endfor %}
@@ -30,22 +36,3 @@
 </div>
 
 <div id="borad-name-edit-form"></div>
-
-<script>
-  function editBoardName(type, id) {
-    var path = window.location.pathname + 'update_board/';
-{#    console.log(path);#}
-    $.ajax({
-        type: 'POST',
-        url: path,
-        data: {'board_id': id, 'type': type},
-        success: function (data) {
-            $('#borad-name-edit-form').html(data);
-            $('#board-name-form').modal('show');
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    });
-  }
-</script>

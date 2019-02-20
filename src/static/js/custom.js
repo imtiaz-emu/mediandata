@@ -415,6 +415,26 @@ function populateJSTreeAndChart(variables) {
 
 }
 
+function editBoardName(type, id) {
+    var path = window.location.pathname + 'update_board/';
+    $.ajax({
+        type: 'POST',
+        url: path,
+        data: {'board_id': id, 'type': type},
+        success: function (data) {
+            $('#borad-name-edit-form').html(data);
+            $('#board-name-form').modal('show');
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function deleteBoard(type, id) {
+    console.log(type, id);
+}
+
 function drawABarChart(data, selector) {
     nv.addGraph(function () {
         var height = 420;
