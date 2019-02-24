@@ -6,15 +6,33 @@
     <h6>Dashboards</h6>
     <ol>
       {% for dashboard in db %}
-        <li><a href="{% url "dashboard:show" id=dashboard.id %}">{{ dashboard.name }}</a></li>
+        <div id="dashboard_{{ dashboard.id }}">
+          <li>
+            <a href="{% url "dashboard:show" id=dashboard.id %}">{{ dashboard.name }}</a>
+            <span class="pull-right">
+              <i class="fa fa-edit" onclick="editBoardName('dashboard', {{ dashboard.id }})"></i>
+              <i class="fa fa-trash" onclick="deleteBoard('dashboard', {{ dashboard.id }})"></i>
+            </span>
+          </li>
+        </div>
       {% endfor %}
     </ol>
     <div class="hr-line-dashed"></div>
     <h6>Workboards</h6>
     <ol>
       {% for workboard in wb %}
-        <li><a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
+        <div id="workboard_{{ workboard.id }}">
+          <li>
+            <a href="{% url "workboard:show" id=workboard.id %}">{{ workboard.name }}</a>
+            <span class="pull-right">
+              <i class="fa fa-edit" onclick="editBoardName('workboard', {{ workboard.id }})"></i>
+              <i class="fa fa-trash" onclick="deleteBoard('workboard', {{ workboard.id }})"></i>
+            </span>
+          </li>
+        </div>
       {% endfor %}
     </ol>
   </div>
 </div>
+
+<div id="borad-name-edit-form"></div>

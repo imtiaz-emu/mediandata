@@ -1,0 +1,56 @@
+{% extends 'layouts/dashboard.html' %}
+{% load staticfiles %}
+{% load common %}
+
+{% block content %}
+  <div class="container-fluid m-t-lg">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="tabs-container" id="dashboard-tabs">
+          {% include 'dashboards/dashboard_tabs.html' with db_list=dashboards db=dashboard %}
+          <div class="tab-content" id="dashboard-tab-content">
+            {% include 'dashboards/dashboard_chart.html' with dashboard=dashboard %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Available Workboards</h5>
+          </div>
+          <div class="ibox-content" id="added-workboards">
+            <ul class="todo-list m-t small-list">
+              {% for workboard in workboards %}
+                <li id="db-wb-{{ workboard.id }}">
+                  <a href="javascript:void(0)" class="check-link"
+                     data-workboard-id="{{ workboard.id }}"
+                     data-type="{{ workboard.analysis_type.analytics }}"
+                     data-variables="{{ variables|get_json_dict_item:workboard.id }}">
+                    <i class="far fa-square"></i>
+                  </a>
+                  <span class="m-l-xs">{{ workboard.name }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+
+            <div class="m-t">
+              <button id='save-dashboard-btn' disabled class="btn btn-sm btn-success"
+                      type="button">Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      {% if selected_wbs %}
+        {% for workboard in selected_wbs %}
+          $('#db-wb-{{ workboard.id }} a').click();
+        {% endfor %}
+      {% endif %}
+    })
+  </script>
+{% endblock content %}

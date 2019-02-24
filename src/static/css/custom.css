@@ -28,3 +28,15 @@
 #workboard-tab-content .panel-body{
     min-height: 400px;
 }
+
+/* Dashboard CSS */
+#dashboard_layout #side-menu .border-bottom{
+  border-bottom: 1px solid #e7eaec !important;
+}
+.add-dashboard-button{
+    padding: 10px 20px 10px 25px;
+    vertical-align: middle;
+}
+#dashboard-tab-content .dataChart svg{
+    min-height: 500px;
+}

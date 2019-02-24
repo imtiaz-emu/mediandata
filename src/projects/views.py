@@ -1,3 +1,7 @@
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProjectForm
@@ -98,3 +102,23 @@ def destroy(request, id=None):
 	messages.success(request, 'Your project was successfully deleted!')
 	return redirect('projects:index')
 
+
+@csrf_exempt
+def update_board(request, id=None):
+	if request.POST.get('type', None) == 'workboard':
+		workboard = get_object_or_404(Workboard, id=request.POST.get('board_id', None))
+		json_data = {
+			'workboard': workboard,
+			'board_type': 'workboard',
+			'url': '/workboards/' + str(workboard.id) + '/update_name/'
+		}
+	else:
+		dashboard = get_object_or_404(Dashboard, id=request.POST.get('board_id', None))
+		json_data = {
+			'dashboard': dashboard,
+			'board_type': 'dashboard',
+			'url': '/dashboards/' + str(dashboard.id) + '/update_name/'
+		}
+
+	template = render_to_string('projects/edit_board_name.html', json_data)
+	return HttpResponse(json.dumps(template), content_type='application/json')
