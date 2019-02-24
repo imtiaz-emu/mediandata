@@ -37,7 +37,8 @@ def show(request, id=None):
         'dashboard': dashboard,
         'dashboards': dashboards,
         'workboards': workboards,
-        "variables": variables
+        "variables": variables,
+        "selected_wbs": dashboard.workboards.all()
     }
     return render(request, "dashboards/show.html", context)
 

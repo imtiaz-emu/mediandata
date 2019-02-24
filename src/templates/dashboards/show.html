@@ -21,7 +21,7 @@
           <div class="ibox-content" id="added-workboards">
             <ul class="todo-list m-t small-list">
               {% for workboard in workboards %}
-                <li>
+                <li id="db-wb-{{ workboard.id }}">
                   <a href="javascript:void(0)" class="check-link"
                      data-workboard-id="{{ workboard.id }}"
                      data-type="{{ workboard.analysis_type.analytics }}"
@@ -43,4 +43,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function () {
+      {% if selected_wbs %}
+        {% for workboard in selected_wbs %}
+          $('#db-wb-{{ workboard.id }} a').click();
+        {% endfor %}
+      {% endif %}
+    })
+  </script>
 {% endblock content %}
